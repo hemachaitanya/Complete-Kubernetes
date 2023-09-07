@@ -112,7 +112,6 @@
     - [Networking:](#networking-2)
     - [Security:](#security-1)
     - [Extensions:](#extensions)
-  - [Credit](#credit)
 
 ### Bringing up the Application to sell products online
 #### why we are using CI/CD pipelines
@@ -1780,7 +1779,5 @@ Kubernetes provides security features like role-based access control (RBAC), Pod
 
 ### Extensions: 
 Kubernetes is highly extensible and allows you to integrate additional functionality through custom resources, controllers, and plugins.
-## Credit
 
-- https://www.github.com/jleetutorial/
-- 
+
