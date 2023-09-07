@@ -4,6 +4,10 @@
 
 - [Docker \& Kubernetes Notes](#docker--kubernetes-notes)
   - [Table of Contents](#table-of-contents)
+    - [Bringing up the Application to sell products online](#bringing-up-the-application-to-sell-products-online)
+      - [why we are using CI/CD pipelines](#why-we-are-using-cicd-pipelines)
+    - [pipeline:](#pipeline)
+    - [Application Deployment – Generation Wise](#application-deployment--generation-wise)
   - [Hypervisor-based Virtualization](#hypervisor-based-virtualization)
     - [Benefits](#benefits)
     - [Limitations](#limitations)
@@ -109,6 +113,20 @@
     - [Security:](#security-1)
     - [Extensions:](#extensions)
   - [Credit](#credit)
+
+### Bringing up the Application to sell products online
+#### why we are using CI/CD pipelines
+* For example when we want to sell a product into ecommerce site there are lot of challeges will be occur
+  ![preview](images/container1.png)
+* Issues:
+    1) lot of manual steps
+    2) redoing the same work many times could be difficult
+the above application has overcome we are using CI/CD workflow
+* Continuous Deployment vs Continuous Delivery
+###  pipeline:
+  ![preview](images/container4.png)
+### Application Deployment – Generation Wise
+
 
 ## Hypervisor-based Virtualization
 
