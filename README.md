@@ -1,7 +1,7 @@
-# Docker & Kubernetes Notes
+# Kubernetes Notes
 
 ## Table of Contents
-- [Docker \& Kubernetes Notes](#docker--kubernetes-notes)
+- [Kubernetes Notes](#kubernetes-notes)
   - [Table of Contents](#table-of-contents)
 - [Kubernetes](#kubernetes)
     - [MiniKube](#minikube)
