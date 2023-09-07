@@ -2,51 +2,113 @@
 
 ## Table of Contents
 
-- [Hypervisor-based Virtualization](#hypervisor-based-virtualization)
-- [Container Based](#container-based)
-- [Docker Client](#docker-client)
-- [Docker Concepts](#docker-concepts)
-- [Commands](#commands)
-- [Docker Ports & Logging](#docker-ports--logging)
-- [Docker Images](#docker-images)
-- [Ways to Build an Image](#ways-to-build-an-image)
-- [Dockerfile](#dockerfile)
-- [Chain Run Command](#chain-run-command)
-- [Sort Multi-Lines Arguments Alphanumerically](#sort-multi-lines-arguments-alphanumerically)
-- [CMD](#cmd)
-- [Push Images to DockerHub](#push-images-to-dockerhub)
-- [Containerization An Application](#containerize-an-application)
-- [Docker Container Links](#docker-container-links)
-- [Docker Compose](#docker-compose)
-- [Docker Networking](#docker-networking)
-- [Unit Tests in Containers](#unit-tests-in-containers)
-- [Continuous Integration](#continuous-integration)
-- [Running in Production](#running-in-production)
-- [Kubernetes](#kubernetes)
-- [MiniKube](#minikube)
-- [Kops](#kops)
-- [Load Balancers](#load-balancers)
-- [Basics](#basics)
-- [Scaling](#scaling)
-- [Labels](#labels)
-- [Node Labels](#node-labels)
-- [Health Checks](#health-checks)
-- [Secrets](#secrets)
-- [Web UI](#web-ui)
-- [Ingress](#ingress)
-- [Advanced Topics](#advanced-topics)
-- [Config Map](#config-map)
-- [Volumes](#volumes)
-- [Volume Provisioning](#volume-provisioning)
-- [Pet Sets](#pet-sets)
-- [Daemon Sets](#daemon-sets)
-- [Autoscaling](#autoscaling)
-- [Resource Management](#resource-management)
-- [Namespaces](#namespaces)
-- [User Management](#user-management)
-- [Networking](#networking)
-- [Node Maintenance](#node-maintenance)
-- [High Availability](#high-availability)
+- [Docker \& Kubernetes Notes](#docker--kubernetes-notes)
+  - [Table of Contents](#table-of-contents)
+  - [Hypervisor-based Virtualization](#hypervisor-based-virtualization)
+    - [Benefits](#benefits)
+    - [Limitations](#limitations)
+  - [Container-based](#container-based)
+    - [Runtime Isolation](#runtime-isolation)
+  - [Docker Client](#docker-client)
+  - [Docker Concepts](#docker-concepts)
+    - [Images](#images)
+    - [Containers](#containers)
+    - [Registries and Repositories](#registries-and-repositories)
+  - [Commands](#commands)
+  - [Docker Ports \& Logging](#docker-ports--logging)
+  - [Docker Images](#docker-images)
+  - [Ways to Build an Image](#ways-to-build-an-image)
+  - [Dockerfile](#dockerfile)
+  - [Chain Run Command](#chain-run-command)
+  - [Sort Multi-Lines Arguments Alphanumerically](#sort-multi-lines-arguments-alphanumerically)
+  - [CMD](#cmd)
+  - [Push Images to DockerHub](#push-images-to-dockerhub)
+  - [Latest Tag](#latest-tag)
+    - [Login](#login)
+  - [Containerize An Application](#containerize-an-application)
+  - [Docker Container Links](#docker-container-links)
+  - [Docker Compose](#docker-compose)
+  - [Docker Networking](#docker-networking)
+    - [Docker Network Types](#docker-network-types)
+    - [None Network](#none-network)
+    - [Bridge Network Interface](#bridge-network-interface)
+    - [Host Network](#host-network)
+    - [Overlay Network](#overlay-network)
+    - [Define Network in Compose](#define-network-in-compose)
+  - [Unit Tests in Containers](#unit-tests-in-containers)
+  - [Continuous Integration](#continuous-integration)
+    - [Configuring Circle CI](#configuring-circle-ci)
+    - [Tag the Docker Images with Two Tags](#tag-the-docker-images-with-two-tags)
+  - [Running In Production](#running-in-production)
+    - [Why Run It In a VM?](#why-run-it-in-a-vm)
+    - [Docker Machine](#docker-machine)
+    - [Creating a New VM](#creating-a-new-vm)
+    - [Production deployment](#production-deployment)
+    - [Extends keyword](#extends-keyword)
+    - [Docker Swarm](#docker-swarm)
+    - [Service Discovery](#service-discovery)
+    - [Deploy Docker App In a Swarm Cluster](#deploy-docker-app-in-a-swarm-cluster)
+  - [Kubernetes](#kubernetes)
+    - [MiniKube](#minikube)
+    - [Kops](#kops)
+    - [Load Balancers](#load-balancers)
+    - [Basics](#basics)
+    - [Scaling](#scaling)
+    - [Services](#services)
+    - [Labels](#labels)
+    - [Node Labels](#node-labels)
+    - [Health Checks](#health-checks)
+    - [Secrets](#secrets)
+    - [Web UI](#web-ui)
+    - [Advanced Topics](#advanced-topics)
+      - [Service Discovery](#service-discovery-1)
+    - [Config Map](#config-map)
+    - [Ingress](#ingress)
+    - [Volumes](#volumes)
+    - [Volume Provisioning](#volume-provisioning)
+    - [Pet Sets](#pet-sets)
+    - [Daemon Sets](#daemon-sets)
+    - [Resource Usage Monitoring](#resource-usage-monitoring)
+    - [Autoscaling](#autoscaling)
+    - [Resource Management](#resource-management)
+      - [Set Resource Quotas](#set-resource-quotas)
+    - [Namespaces](#namespaces)
+    - [User Management](#user-management)
+    - [Networking](#networking)
+    - [Node Maintenance](#node-maintenance)
+    - [High Availability](#high-availability)
+  - [Key concepts and components of container orchestration include](#key-concepts-and-components-of-container-orchestration-include)
+    - [Containers:](#containers-1)
+    - [Orchestration Platform:](#orchestration-platform)
+  - [Container Orchestration Features:](#container-orchestration-features)
+    - [Deployment:](#deployment)
+    - [Load Balancing:](#load-balancing)
+    - [Service Discovery:](#service-discovery-2)
+    - [Rolling Updates:](#rolling-updates)
+    - [Health Monitoring:](#health-monitoring)
+    - [Resource Allocation:](#resource-allocation)
+    - [Storage Orchestration:](#storage-orchestration)
+    - [Container Clusters:](#container-clusters)
+    - [API and Command-Line Interface (CLI):](#api-and-command-line-interface-cli)
+    - [Container Registry:](#container-registry)
+    - [Networking:](#networking-1)
+    - [Persistent Storage:](#persistent-storage)
+    - [Secrets Management:](#secrets-management)
+    - [Monitoring and Logging:](#monitoring-and-logging)
+    - [Security:](#security)
+  - [Key aspects of orchestration in Kubernetes include](#key-aspects-of-orchestration-in-kubernetes-include)
+    - [Deployment:](#deployment-1)
+    - [Scaling:](#scaling-1)
+    - [Service Discovery and Load Balancing:](#service-discovery-and-load-balancing)
+    - [Rolling Updates and Rollbacks:](#rolling-updates-and-rollbacks)
+    - [Health Monitoring and Self-healing:](#health-monitoring-and-self-healing)
+    - [Resource Management:](#resource-management-1)
+    - [Configuration Management:](#configuration-management)
+    - [Storage Orchestration:](#storage-orchestration-1)
+    - [Networking:](#networking-2)
+    - [Security:](#security-1)
+    - [Extensions:](#extensions)
+  - [Credit](#credit)
 
 ## Hypervisor-based Virtualization
 
@@ -376,7 +438,7 @@ Each container connects to a bridge network to connect to the host machine.
 - Bridge Network
 - Host Network
 - Overlay Network
-
+- under lay Network
 To see Docker networks use:
 
 ```
@@ -1618,7 +1680,91 @@ services in a high availability (HA) setup
     - Only one is the leader and the rest are on stand-by
 - A cluster like minikube does not HA, it is only one cluster
 - If you are going to use a cluster on AWS, kops can do the heavy lifting for you
+## Key concepts and components of container orchestration include
 
+### Containers: 
+Containers are lightweight, portable, and isolated environments that package applications and their dependencies. They provide consistency across different environments, such as development, testing, and production.
+
+### Orchestration Platform: 
+The container orchestration platform is a software system or service that manages containerized applications. Popular container orchestration platforms include Kubernetes, Docker Swarm, and Apache Mesos.
+
+## Container Orchestration Features:
+
+### Deployment:
+Automatically deploy containerized applications to a cluster of machines.
+Scaling: Dynamically scale containers based on resource utilization or demand.
+### Load Balancing:
+Distribute incoming traffic across multiple containers to ensure high availability and even workload distribution.
+### Service Discovery: 
+Automatically discover and register services so that containers can communicate with each other.
+### Rolling Updates:
+Perform zero-downtime updates by gradually replacing old containers with new ones.
+### Health Monitoring:
+Continuously monitor the health of containers and automatically replace or restart failed ones.
+### Resource Allocation:
+Efficiently allocate CPU, memory, and other resources to containers.
+Configuration Management: Manage application configuration, secrets, and environment variables.
+### Storage Orchestration: 
+Handle persistent storage for stateful applications.
+### Container Clusters:
+Container orchestration platforms manage a cluster of machines (nodes) that run containers. These nodes can be physical servers, virtual machines, or cloud instances.
+
+### API and Command-Line Interface (CLI): 
+Container orchestration platforms offer APIs and CLI tools that allow developers and operators to interact with and control the orchestration environment programmatically.
+
+### Container Registry: 
+A container registry is a repository for storing container images. Common container registries include Docker Hub, Google Container Registry, and AWS Elastic Container Registry (ECR).
+
+### Networking: 
+Container orchestration platforms provide networking solutions to enable communication between containers running on different nodes within the cluster.
+
+### Persistent Storage: 
+Some container orchestration platforms offer solutions for managing and provisioning persistent storage volumes for stateful applications.
+
+### Secrets Management: 
+Securely manage sensitive information such as passwords, API keys, and certificates required by containers.
+
+### Monitoring and Logging: 
+Integration with monitoring and logging tools helps track the performance and health of containers and applications.
+
+### Security: 
+Container orchestration platforms implement security features like role-based access control (RBAC), network policies, and container isolation to enhance application security
+
+## Key aspects of orchestration in Kubernetes include
+
+### Deployment: 
+Kubernetes enables you to define and declare how your application should be deployed using a declarative configuration called a Deployment. You specify the desired state, including the number of replicas (containers) to run, the container image to use, and other configuration details. Kubernetes ensures that the actual state matches the desired state by creating or updating containers as needed.
+
+### Scaling: 
+Kubernetes allows you to scale your application horizontally by adjusting the number of replicas. You can manually scale up or down based on demand, or you can set up autoscaling policies to automatically adjust the replica count based on resource utilization or custom metrics.
+
+### Service Discovery and Load Balancing: 
+Kubernetes provides a service abstraction that allows containers to discover and communicate with each other using DNS or environment variables. It also manages load balancing for incoming traffic to services, distributing requests among the available containers.
+
+### Rolling Updates and Rollbacks: 
+Kubernetes supports rolling updates, allowing you to change the configuration or container image of your application gradually without causing downtime. If a problem is detected during an update, Kubernetes can roll back to the previous version automatically.
+
+### Health Monitoring and Self-healing: 
+Kubernetes continually monitors the health of containers and nodes. If a container or node becomes unhealthy, Kubernetes can automatically replace the failing container or reschedule it to a healthy node.
+
+### Resource Management: 
+Kubernetes provides tools for allocating and managing CPU and memory resources for containers. Resource requests and limits can be set to ensure fair resource distribution and prevent resource contention.
+
+### Configuration Management: 
+Kubernetes allows you to manage configuration data and secrets separately from your application code. ConfigMaps and Secrets are used to inject configuration settings and sensitive data into containers.
+
+### Storage Orchestration: 
+Kubernetes offers various storage options, including persistent volumes (PVs) and persistent volume claims (PVCs), to manage storage resources for stateful applications.
+
+### Networking: 
+Kubernetes manages networking between containers within the cluster and ensures that containers can communicate with each other as well as with external services. Network policies can be used to define communication rules.
+
+### Security: 
+Kubernetes provides security features like role-based access control (RBAC), PodSecurityPolicies, and network policies to control access and secure your cluster.
+
+### Extensions: 
+Kubernetes is highly extensible and allows you to integrate additional functionality through custom resources, controllers, and plugins.
 ## Credit
 
 - https://www.github.com/jleetutorial/
+- 
