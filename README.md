@@ -48,7 +48,7 @@
     - [Docker Swarm](#docker-swarm)
     - [Service Discovery](#service-discovery)
     - [Deploy Docker App In a Swarm Cluster](#deploy-docker-app-in-a-swarm-cluster)
-  - [Kubernetes](#kubernetes)
+- [Kubernetes](#kubernetes)
     - [MiniKube](#minikube)
     - [Kops](#kops)
     - [Load Balancers](#load-balancers)
@@ -284,9 +284,7 @@ To build a container from a Dockerfile use:
 docker build
 ```
 
-- Optionally you can specify the build context.
-- When the build starts the build context gets saved to a tarball.
-- The tarball is then transferred to the daemon.
+
 
 ## Chain Run Command
 
@@ -660,7 +658,7 @@ To create slave nodes use:
 docker-machine create -d digitalocean --swarm --swarm-discovery="consul://${KP_IP}:8500" --engine-opt="cluster-store=consul://${KP_IP}:8500" --engine-opt="cluster-advertise=eth1:2376" slave
 ```
 
-## Kubernetes
+# Kubernetes
 
 Is an open-source orchestration system for Docker containers.
 
