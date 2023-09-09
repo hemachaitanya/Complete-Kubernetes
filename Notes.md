@@ -4,7 +4,8 @@
 - [Kubernetes Notes](#kubernetes-notes)
   - [Table of Contents](#table-of-contents)
 - [Kubernetes](#kubernetes)
-    - [MiniKube](#minikube)
+    - [MiniKube Installation(1.28)](#minikube-installation128)
+    - [To install CRI-dockerd](#to-install-cri-dockerd)
     - [Kops](#kops)
     - [Load Balancers](#load-balancers)
     - [Basics](#basics)
@@ -107,7 +108,68 @@ Kubernetes can be ran anywhere (except more integrations exists for AWS/GCE)
 - Minikube - run Kubernetes locally
 - Kops - used to spin up highly available production cluster
 
-### MiniKube
+### MiniKube Installation(1.28)
+- excuting all commands both Nodes
+sudo apt update
+sudo apt install docker.io
+sudo usermod -aG docker ubuntu
+- we have to exit and relogin again
+docker info
+### To install CRI-dockerd 
+wget https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.4/cri-dockerd_0.3.4.3-0.ubuntu-jammy_amd64.deb
+
+sudo dpkg -i cri-dockerd_0.3.4.3-0.ubuntu-jammy_amd64.deb
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
+Execute the following on master node
+- Lets initialize the cluster using the following command as a root user on masterNode
+
+* kubeadm init --pod-network-cidr "10.244.0.0/16" --cri-socket "unix:///var/run/cri-dockerd.sock"
+
+* mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+* now we can excute the below command on Worker Node
+kubeadm join 172.31.26.21:6443 --token uht9cw.03x0raodrvf6o75j \
+        --discovery-token-ca-cert-hash sha256:792e73270dba37a81ec3b3e519982f2cc70a2429f7db431ffe6b1555471822b0 \
+		--cri-socket "unix:///var/run/cri-dockerd.sock"
+![preview](images/container7.png)
+- Now kuberentes needs CNI Plugin so that pod-network is enabled. Till this is done the DNS doesnot work, services donot work so nodes are shown as NotReady. it will intall flannel Network on Master Node
+
+* kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+
+![preview](images/container8.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Starting MiniKube:
 
@@ -1168,5 +1230,4 @@ Kubernetes provides security features like role-based access control (RBAC), Pod
 
 ### Extensions: 
 Kubernetes is highly extensible and allows you to integrate additional functionality through custom resources, controllers, and plugins.
-
 
