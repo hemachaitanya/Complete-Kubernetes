@@ -109,8 +109,8 @@ Kubernetes can be ran anywhere (except more integrations exists for AWS/GCE)
 
 ### MiniKube Installation(1.28)
 
-```yml
 excuting all commands both Nodes
+```yml
 sudo apt update
 sudo apt install docker.io
 sudo usermod -aG docker ubuntu
