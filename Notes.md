@@ -5,7 +5,6 @@
   - [Table of Contents](#table-of-contents)
 - [Kubernetes](#kubernetes)
     - [MiniKube Installation(1.28)](#minikube-installation128)
-    - [To install CRI-dockerd](#to-install-cri-dockerd)
     - [Kops](#kops)
     - [Load Balancers](#load-balancers)
     - [Basics](#basics)
@@ -118,12 +117,12 @@ sudo usermod -aG docker ubuntu
 - we have to exit your machine and relogin again
 docker info
 ```
-### To install CRI-dockerd 
+- To install CRI-dockerd 
 ```yml
 wget https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.4/cri-dockerd_0.3.4.3-0.ubuntu-jammy_amd64.deb
 
 ```
-* lets excute all commands both nodes(Master&Node)
+- lets excute all commands both nodes(Master&Node)
 ```yml
 sudo dpkg -i cri-dockerd_0.3.4.3-0.ubuntu-jammy_amd64.deb
 sudo apt-get update
