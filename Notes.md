@@ -153,37 +153,6 @@ kubeadm join 172.31.26.21:6443 --token uht9cw.03x0raodrvf6o75j \
 ```
 ![preview](images/container8.png)
 
-Starting MiniKube:
-
-```
-minikube start
-```
-
-MiniKube config:
-
-```
-cat ~/.kube/config
-```
-
-Expose minikube test:
-
-```
-kubectl expose deployment hello-minikube --type=NodePort
-```
-
-Run minikube service:
-
-```
-kubectl run hello-minikube --image=gcr.io/google_containers/echoserver:1.4 --port=8080
-minikube service hello-minikube --url
-```
-
-Stop minikube:
-
-```
-minikube stop
-```
-
 ### Load Balancers
 
 On AWS the load balancer will route the traffic to the correct pod in Kubernetes.
