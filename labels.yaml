@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-label-1
+  labels:
+    app: NopCommerce
+    env: dev
+spec:
+  containers:
+    - name: NopCommerce
+      image: batchusivaji/rajshekar
+      ports:
+        - containerPort: 5000
+          protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-label-2
+  env: qa
+spec: 

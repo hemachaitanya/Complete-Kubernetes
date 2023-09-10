@@ -5,6 +5,34 @@
   - [Table of Contents](#table-of-contents)
 - [Kubernetes](#kubernetes)
     - [MiniKube Installation(1.28)](#minikube-installation128)
+    - [Key concepts of components](#key-concepts-of-components)
+      - [Containers:](#containers)
+      - [Orchestration Platform:](#orchestration-platform)
+      - [- what is container orchestration](#--what-is-container-orchestration)
+      - [kubectl: kubernetes control](#kubectl-kubernetes-control)
+    - [k8s architecture](#k8s-architecture)
+    - [components](#components)
+      - [ectd](#ectd)
+      - [kube-apiserver](#kube-apiserver)
+      - [kube-scheduler](#kube-scheduler)
+      - [kube-controller-manager](#kube-controller-manager)
+      - [kubelet](#kubelet)
+  - [Container Orchestration Features:](#container-orchestration-features)
+    - [Deployment:](#deployment)
+    - [Load Balancing:](#load-balancing)
+    - [Service Discovery:](#service-discovery)
+    - [Rolling Updates:](#rolling-updates)
+    - [Health Monitoring:](#health-monitoring)
+    - [Resource Allocation:](#resource-allocation)
+    - [Storage Orchestration:](#storage-orchestration)
+    - [Container Clusters:](#container-clusters)
+    - [API and Command-Line Interface (CLI):](#api-and-command-line-interface-cli)
+    - [Container Registry:](#container-registry)
+    - [Networking:](#networking)
+    - [Persistent Storage:](#persistent-storage)
+    - [Secrets Management:](#secrets-management)
+    - [Monitoring and Logging:](#monitoring-and-logging)
+    - [Security:](#security)
     - [Load Balancers](#load-balancers)
     - [Basics](#basics)
     - [Scaling](#scaling)
@@ -14,7 +42,7 @@
     - [Health Checks](#health-checks)
     - [Secrets](#secrets)
     - [Advanced Topics](#advanced-topics)
-      - [Service Discovery](#service-discovery)
+      - [Service Discovery](#service-discovery-1)
     - [Config Map](#config-map)
     - [Ingress](#ingress)
     - [Volumes](#volumes)
@@ -27,28 +55,9 @@
       - [Set Resource Quotas](#set-resource-quotas)
     - [Namespaces](#namespaces)
     - [User Management](#user-management)
-    - [Networking](#networking)
+    - [Networking](#networking-1)
     - [Node Maintenance](#node-maintenance)
     - [High Availability](#high-availability)
-  - [Key concepts and components of container orchestration include](#key-concepts-and-components-of-container-orchestration-include)
-    - [Containers:](#containers)
-    - [Orchestration Platform:](#orchestration-platform)
-  - [Container Orchestration Features:](#container-orchestration-features)
-    - [Deployment:](#deployment)
-    - [Load Balancing:](#load-balancing)
-    - [Service Discovery:](#service-discovery-1)
-    - [Rolling Updates:](#rolling-updates)
-    - [Health Monitoring:](#health-monitoring)
-    - [Resource Allocation:](#resource-allocation)
-    - [Storage Orchestration:](#storage-orchestration)
-    - [Container Clusters:](#container-clusters)
-    - [API and Command-Line Interface (CLI):](#api-and-command-line-interface-cli)
-    - [Container Registry:](#container-registry)
-    - [Networking:](#networking-1)
-    - [Persistent Storage:](#persistent-storage)
-    - [Secrets Management:](#secrets-management)
-    - [Monitoring and Logging:](#monitoring-and-logging)
-    - [Security:](#security)
   - [Key aspects of orchestration in Kubernetes include](#key-aspects-of-orchestration-in-kubernetes-include)
     - [Deployment:](#deployment-1)
     - [Scaling:](#scaling-1)
@@ -152,6 +161,106 @@ kubeadm join 172.31.26.21:6443 --token uht9cw.03x0raodrvf6o75j \
 - kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
 ```
 ![preview](images/container8.png)
+
+### Key concepts of components
+
+- what is k8s
+  `k8s is a Container orchestration tool and it helps maintaing the containers`
+
+#### Containers: 
+`Containers are lightweight, portable, and isolated environments that package applications and their dependencies`. They provide consistency across different environments, such as development, testing, and production.
+
+#### Orchestration Platform: 
+The container orchestration platform is a software system or service that `manages containerized applications`. Popular container orchestration platforms include `Kubernetes, Docker Swarm, and Apache Mesos`.
+#### - what is container orchestration
+  container orchestration nothing but `automation of the workloads`  such as  `deployment, scaling, networking , loadbalancing ,service discovery` and lifecycle management of containers.it will helps to deploy an application across different environments without any interruptions or need to redesign it.
+#### kubectl: kubernetes control
+- `This is a command line tool to communicate with k8s api server.`
+- Inside k8s we have a Certificate Authority and keys available which are used to secure all k8s communications.
+- The kubeconfig file contians the certificate data to be connected securely as admin into k8s (This is based on installations which we have done so far)
+### k8s architecture
+![preview](images/cluster.png)
+### components
+- Control Plane or Master Node
+  * kube-api Server
+  * kube-scheduler
+  * kube-controller-manager
+  * etcd
+* Worker Node or Slave
+  * kubelet
+  * container engine
+  * kube-proxy
+#### ectd 
+* `This is memory of k8s cluster or k8s uses etc to store all the cluster data`
+* etcd cluster can scale across multiple nodes unlike traditional databases
+* This is distribute key-value store
+  
+#### kube-apiserver
+* `it will handels all communication of k8s cluster.let it be internal or external`
+* This is most important component of the k8s control plane
+* kube-api server exposes REST API which enables clients to send HTTP requests to kube-api server
+* kube-api server responds over http requests and writes the resource information to etcd store
+* kube-api server exposes the k8s objects
+* kube-api server is responsible for all the communication
+* The api server is over https and requires authentication
+  
+#### kube-scheduler
+* `Scheduler is responsible for creating k8s objects(pods) and scheduling them on right node`
+
+#### kube-controller-manager
+* `This ensures desired state is maintained`
+* This is combination of multiple controller
+  - NodeController
+  - Replication Controller
+  - Namespace Controller
+  - EndpointController
+  - ServiceAccountController
+#### kubelet
+- This is the agent of the control plane 
+- This reacts to requests/orders from control plane components and speaks with container runtime and gets the work done
+- If it fails responds back to control plane with status
+## Container Orchestration Features:
+
+### Deployment:
+Automatically deploy containerized applications to a cluster of machines.
+- Scaling: Dynamically scale containers based on resource utilization or demand.
+### Load Balancing:
+Distribute incoming traffic across multiple containers to ensure high availability and even workload distribution.
+### Service Discovery: 
+Automatically discover and register services so that containers can communicate with each other.
+### Rolling Updates:
+Perform zero-downtime updates by gradually replacing old containers with new ones.
+### Health Monitoring:
+Continuously monitor the health of containers and automatically replace or restart failed ones.
+### Resource Allocation:
+Efficiently allocate CPU, memory, and other resources to containers.
+Configuration Management: Manage application configuration, secrets, and environment variables.
+### Storage Orchestration: 
+- it Handle persistent storage for stateful applications.
+### Container Clusters:
+Container orchestration platforms manage a cluster of machines (nodes) that run containers. These nodes can be physical servers, virtual machines, or cloud instances.
+
+### API and Command-Line Interface (CLI): 
+Container orchestration platforms offer APIs and CLI tools that allow developers and operators to interact with and control the orchestration environment programmatically.
+
+### Container Registry: 
+A container registry is a repository for storing container images. Common container registries include Docker Hub, Google Container Registry, and AWS Elastic Container Registry (ECR).
+
+### Networking: 
+Container orchestration platforms provide networking solutions to enable communication between containers running on different nodes within the cluster.
+
+### Persistent Storage: 
+Some container orchestration platforms offer solutions for managing and provisioning persistent storage volumes for stateful applications.
+
+### Secrets Management: 
+Securely manage sensitive information such as passwords, API keys, and certificates required by containers.
+
+### Monitoring and Logging: 
+Integration with monitoring and logging tools helps track the performance and health of containers and applications.
+
+### Security: 
+Container orchestration platforms implement security features like role-based access control (RBAC), network policies, and container isolation to enhance application security
+
 
 ### Load Balancers
 
@@ -680,6 +789,7 @@ spec:
   - This is useful if you want to ensure that a certain pod is running on every single Kubernetes node.
 - When a node is added to the cluster, a new pod will be started on that automatically.
 - Same when the node is removed, the pod will not be rescheduled on another node.
+- DaemonSets are designed to run exactly one pod per node
 
 Typical use cases:
 
@@ -985,55 +1095,6 @@ services in a high availability (HA) setup
     - Only one is the leader and the rest are on stand-by
 - A cluster like minikube does not HA, it is only one cluster
 - If you are going to use a cluster on AWS, kops can do the heavy lifting for you
-## Key concepts and components of container orchestration include
-
-### Containers: 
-Containers are lightweight, portable, and isolated environments that package applications and their dependencies. They provide consistency across different environments, such as development, testing, and production.
-
-### Orchestration Platform: 
-The container orchestration platform is a software system or service that manages containerized applications. Popular container orchestration platforms include Kubernetes, Docker Swarm, and Apache Mesos.
-
-## Container Orchestration Features:
-
-### Deployment:
-Automatically deploy containerized applications to a cluster of machines.
-- Scaling: Dynamically scale containers based on resource utilization or demand.
-### Load Balancing:
-Distribute incoming traffic across multiple containers to ensure high availability and even workload distribution.
-### Service Discovery: 
-Automatically discover and register services so that containers can communicate with each other.
-### Rolling Updates:
-Perform zero-downtime updates by gradually replacing old containers with new ones.
-### Health Monitoring:
-Continuously monitor the health of containers and automatically replace or restart failed ones.
-### Resource Allocation:
-Efficiently allocate CPU, memory, and other resources to containers.
-Configuration Management: Manage application configuration, secrets, and environment variables.
-### Storage Orchestration: 
-- it Handle persistent storage for stateful applications.
-### Container Clusters:
-Container orchestration platforms manage a cluster of machines (nodes) that run containers. These nodes can be physical servers, virtual machines, or cloud instances.
-
-### API and Command-Line Interface (CLI): 
-Container orchestration platforms offer APIs and CLI tools that allow developers and operators to interact with and control the orchestration environment programmatically.
-
-### Container Registry: 
-A container registry is a repository for storing container images. Common container registries include Docker Hub, Google Container Registry, and AWS Elastic Container Registry (ECR).
-
-### Networking: 
-Container orchestration platforms provide networking solutions to enable communication between containers running on different nodes within the cluster.
-
-### Persistent Storage: 
-Some container orchestration platforms offer solutions for managing and provisioning persistent storage volumes for stateful applications.
-
-### Secrets Management: 
-Securely manage sensitive information such as passwords, API keys, and certificates required by containers.
-
-### Monitoring and Logging: 
-Integration with monitoring and logging tools helps track the performance and health of containers and applications.
-
-### Security: 
-Container orchestration platforms implement security features like role-based access control (RBAC), network policies, and container isolation to enhance application security
 
 ## Key aspects of orchestration in Kubernetes include
 
