@@ -1130,4 +1130,3 @@ Kubernetes provides security features like role-based access control (RBAC), Pod
 
 ### Extensions: 
 Kubernetes is highly extensible and allows you to integrate additional functionality through custom resources, controllers, and plugins.
-

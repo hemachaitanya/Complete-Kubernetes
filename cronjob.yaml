@@ -1,0 +1,30 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  namespace: dev
+  name: jenkins
+  labels:
+    env: uat
+    purpose: CronJob
+spec:
+  schedule: '*/5 * * * *'
+  jobTemplate:
+    metadata:
+      labels:
+        env: uat
+        purpose: CronJob
+    spec:
+      selector:
+        matchLabels:
+          app: test
+      template:
+        metadata:
+          labels:
+            en: test
+        spec:
+          containers:
+            - name: jenkins
+              image: Jenkins/Jenkins
+              ports:
+                - containerPort: 8080

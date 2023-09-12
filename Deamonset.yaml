@@ -1,0 +1,27 @@
+---
+apiVersion: apps/v1
+kind: Daemonset
+metadata:
+  name: nginx
+  labels:
+    env: uat
+spec:
+  minReadySeconds: 2
+  selector:
+    matchLabels:
+      env: uat
+  template:
+    metadata:
+      namespace: dev
+      name: pod-spec
+      labels:
+        env: uat
+    spec:
+      containers:
+        - name: jenkins
+          image: jenkins/jenkins:2.405-jdk11
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: volume
+              mountPath: /var/lib/jenkins

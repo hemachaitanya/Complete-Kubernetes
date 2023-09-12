@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: init-container
+  labels:
+    env: init
+spec:
+  initContainers:
+    - name: alpine
+      image: alpine
+      args:
+        - sleep
+        - 10s
+    - name: redis
+      image: redis
+      args:
+        - sleep
+        - 20s
+  containers:
+    - name: nginx
+      image: nginx:1.27

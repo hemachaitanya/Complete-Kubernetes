@@ -21,3 +21,24 @@ metadata:
   name: pod-label-2
   env: qa
 spec: 
+  containers:
+    - name: nginx
+      image: nginx
+      ports:
+        - containerPort: 80
+          protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-label-3
+  env: uat
+spec:
+  containers:
+    - name: nginx
+      image: nginx:1.27
+      ports:
+        - containerPort: 80
+          protocol: TCP
