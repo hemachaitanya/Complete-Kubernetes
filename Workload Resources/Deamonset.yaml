@@ -1,6 +1,6 @@
 ---
 apiVersion: apps/v1
-kind: Daemonset
+kind: DaemonSet
 metadata:
   name: nginx
   labels:
@@ -22,6 +22,4 @@ spec:
           image: jenkins/jenkins:2.405-jdk11
           ports:
             - containerPort: 8080
-          volumeMounts:
-            - name: volume
-              mountPath: /var/lib/jenkins
+         

@@ -17,6 +17,7 @@
       - [kube-scheduler](#kube-scheduler)
       - [kube-controller-manager](#kube-controller-manager)
       - [kubelet](#kubelet)
+      - [Pod lifecycle](#pod-lifecycle)
   - [Container Orchestration Features:](#container-orchestration-features)
     - [Deployment:](#deployment)
     - [Load Balancing:](#load-balancing)
@@ -70,6 +71,7 @@
     - [Networking:](#networking-2)
     - [Security:](#security-1)
     - [Extensions:](#extensions)
+    - [crashloop Backoff occur](#crashloop-backoff-occur)
 
 # Kubernetes
 
@@ -173,7 +175,7 @@ kubeadm join 172.31.26.21:6443 --token uht9cw.03x0raodrvf6o75j \
 #### Orchestration Platform: 
 The container orchestration platform is a software system or service that `manages containerized applications`. Popular container orchestration platforms include `Kubernetes, Docker Swarm, and Apache Mesos`.
 #### - what is container orchestration
-  container orchestration nothing but `automation of the workloads`  such as  `deployment, scaling, networking , loadbalancing ,service discovery` and lifecycle management of containers.it will helps to deploy an application across different environments without any interruptions or need to redesign it.
+  container orchestration nothing but `automation of the workloads`  such as  `deployment, scaling, networking , loadbalancing ,service discovery` and `manages containerized applicatons`.it will helps to deploy an application across different environments without any interruptions or need to redesign it.
 #### kubectl: kubernetes control
 - `This is a command line tool to communicate with k8s api server.`
 - Inside k8s we have a Certificate Authority and keys available which are used to secure all k8s communications.
@@ -216,9 +218,12 @@ The container orchestration platform is a software system or service that `manag
   - EndpointController
   - ServiceAccountController
 #### kubelet
-- This is the agent of the control plane 
+- `This is the agent of the control plane` 
 - This reacts to requests/orders from control plane components and speaks with container runtime and gets the work done
 - If it fails responds back to control plane with status
+#### Pod lifecycle
+![preview](images/pod.png)
+- Running -Once all the containers in the POD starts, it goes in to running state.
 ## Container Orchestration Features:
 
 ### Deployment:
@@ -323,10 +328,9 @@ spec:
         app: helloworld
     spec:
       containers:
-      - name: k8s-demo
-        image: k8s-demo
-        port:
-        - containerPort: 3000
+      - name: nginx
+        port: nginx
+        - containerPort: 80 
 ```
 
 Via CLI you can use:
@@ -934,7 +938,7 @@ secrets - total number of secrets that can exist in a namespace
 
 ### Namespaces
 
-- Namespaces allow you to create virtual clusters within the same virtual cluster
+- Namespaces allow you to create virtual clusters within the same virtual or sub cluster
 - Namespaces logically separates your cluster
 - The standard default namespace is called default and that's where all resources are launched by default
   - There is also a namespace for kubernetes specific resources, called kube-system
@@ -944,13 +948,13 @@ secrets - total number of secrets that can exist in a namespace
 
 To create a namespace:
 
-```
+```yml
 kubectl create namespace myspace
 ```
 
 To get namespaces use:
 
-```
+```yml
 kubectl get namespaces
 ```
 
@@ -1130,3 +1134,9 @@ Kubernetes provides security features like role-based access control (RBAC), Pod
 
 ### Extensions: 
 Kubernetes is highly extensible and allows you to integrate additional functionality through custom resources, controllers, and plugins.
+
+### crashloop Backoff occur
+- The apllication inside the container keeps crashing
+- some type of parameters of the pod or container have been configured incompletely
+   - example: Environmental varibles, parameters
+- An error have been made when deploying k8s

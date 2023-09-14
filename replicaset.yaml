@@ -2,26 +2,36 @@
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: Replicas
+  name: replicas
   labels:
-    app: pre-prod
+    env: dev
+    purpose: redis
 spec:
-  minReadySeconds: 2
-  replcas: 2
-  selector:
-    labels:
-      env: dev
-      app: uat
+  minReadySeconds: 3
+  replicas: 1
+  selector: # to set based selector , can be used to select multiple options in single selection
+    matchExpressions:
+      - key: uat
+        operator: In 
+        values:
+          - app
+          - uae
+      - key: dev
+        operator: NotIn 
+        values:
+          - devops
+          - cloud
   template:
     metadata:
       labels:
-        env: dev
-        app: uat
+        name: matchexpression
+        uat: app
+        dev: developer
     spec:
       containers:
-        - name: jenkins
-          image: jenkins/jenkins:2.405-jdk11
+        - name: redis
+          image: redis
           ports:
-            - containerPort: 8080
+            - containerPort: 6379
               protocol: TCP
          
