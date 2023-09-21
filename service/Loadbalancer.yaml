@@ -10,23 +10,13 @@ spec:
   minReadySeconds: 2
   replicas: 1
   selector:
-    matchExpressions:
-      - key: dev
-        operator: In
-        values:
-          - app
-          - webapp
-      - key: uat
-        operator: NotIn
-        values: 
-          - cloud
-          - devops
+    matchLabels:
+      dev: app  
   template: # Pod template
     metadata:
       name: nginx
       labels:
         dev: app
-        uat: webapp
     spec:
       containers:
         - name: nginx
@@ -43,7 +33,6 @@ spec:
   type: LoadBalancer
   selector:
     dev: app  # Matches the label selector in the Deployment
-    uat: webapp
   ports:
     - name: port
       port: 80

@@ -1,9 +1,9 @@
-# Kubernetes Notes
 
-## Table of Contents
-- [Kubernetes Notes](#kubernetes-notes)
-  - [Table of Contents](#table-of-contents)
+# Kubernetes
+
+# Content list
 - [Kubernetes](#kubernetes)
+- [Content list](#content-list)
     - [MiniKube Installation(1.28)](#minikube-installation128)
     - [Key concepts of components](#key-concepts-of-components)
       - [Containers:](#containers)
@@ -17,7 +17,13 @@
       - [kube-scheduler](#kube-scheduler)
       - [kube-controller-manager](#kube-controller-manager)
       - [kubelet](#kubelet)
-      - [Pod lifecycle](#pod-lifecycle)
+  - [Pod lifecycle or States of a Pod](#pod-lifecycle-or-states-of-a-pod)
+    - [Running:](#running)
+    - [Pending:](#pending)
+    - [Succeeded:](#succeeded)
+    - [Failed:](#failed)
+    - [unknown](#unknown)
+    - [CrashLoopBackoff](#crashloopbackoff)
   - [Container Orchestration Features:](#container-orchestration-features)
     - [Deployment:](#deployment)
     - [Load Balancing:](#load-balancing)
@@ -34,13 +40,18 @@
     - [Secrets Management:](#secrets-management)
     - [Monitoring and Logging:](#monitoring-and-logging)
     - [Security:](#security)
+    - [Pod](#pod)
+    - [ReplicaSet](#replicaset)
+    - [Annotations](#annotations)
     - [Load Balancers](#load-balancers)
     - [Basics](#basics)
     - [Scaling](#scaling)
+    - [Replication Set](#replication-set)
     - [Services](#services)
     - [Labels](#labels)
     - [Node Labels](#node-labels)
     - [Health Checks](#health-checks)
+    - [CronJob](#cronjob)
     - [Secrets](#secrets)
     - [Advanced Topics](#advanced-topics)
       - [Service Discovery](#service-discovery-1)
@@ -71,9 +82,7 @@
     - [Networking:](#networking-2)
     - [Security:](#security-1)
     - [Extensions:](#extensions)
-    - [crashloop Backoff occur](#crashloop-backoff-occur)
 
-# Kubernetes
 
 Is an open-source orchestration system for Docker containers.
 
@@ -221,9 +230,33 @@ The container orchestration platform is a software system or service that `manag
 - `This is the agent of the control plane` 
 - This reacts to requests/orders from control plane components and speaks with container runtime and gets the work done
 - If it fails responds back to control plane with status
-#### Pod lifecycle
-![preview](images/pod.png)
-- Running -Once all the containers in the POD starts, it goes in to running state.
+
+## Pod lifecycle or States of a Pod
+![preview](images/Pod-Lifecycle.png)
+
+### Running:
+Once all the containers in the POD starts, it goes in to running state.
+
+### Pending: 
+When the Pod’s metadata is accepted by the Kuberenetes but still hasn’t been deployed to any node, Pod goes into the Pending state.
+  -  E.g. When Nodes do not have enough resources in the cluster, it causes the pod to go in pending state.
+  
+### Succeeded: 
+When containers inside the the pod get terminated with exit code 0 then the pod goes into the Succeeded State.
+
+### Failed:
+ When one of the containers inside the pod gets terminated with exit code other than 0, It causes the pod to go into the Failed state.
+
+### unknown
+The Pod status couldn’t be obtained by the API server.
+
+### CrashLoopBackoff
+- When the containers inside the pod get failed to start then the pod is being recreated again and again.
+- The apllication inside the container keeps crashing
+- some type of parameters of the pod or container have been configured incompletely
+   - example: Environmental varibles, parameters
+- An error have been made when deploying k8s
+
 ## Container Orchestration Features:
 
 ### Deployment:
@@ -266,7 +299,36 @@ Integration with monitoring and logging tools helps track the performance and he
 ### Security: 
 Container orchestration platforms implement security features like role-based access control (RBAC), network policies, and container isolation to enhance application security
 
+### Pod
+kubect apply -f <manifest File Name>
+kubect apply -f . <Dot means Current Directory>
+kubectl delete -f . <Dot means Current Directory>
+kubectl delete -f <mafifest File Name>
+kubectl get po or pods <it will shows all pods>
+kubectl get po -o wide 
+kubectl get po -w
+kubectl get po 'pod name' -o yml
+kubectl get po --show-labels
+kuectl describe po 'pod name'
+kubctl get po --all-namespaces
+kubectl get po -l <label name> for example app=nginx
+kubectl exec 'Pod Name' -it -- /bin/bash
+kubectl exec 'Pod Name' -it -c 'Container Name' -- /bin/bash 
+kubectl get po -o custom-columns=IP:status.podIP
+kubectl exec 'pod name' -- pwd or whoami
+kubectl exec 'Pod Name' -c 'Container Name' -- pwd or ifconfig
+kubectl config set-context --current --namespace=<namespace-name>
 
+### ReplicaSet
+Scaling: Scaling in k8s means increasing number of Pods not containers in Pod. For Scaling pods we would learn Replica set/Replication Controller etcs..
+
+- kubectl get no
+- kubectl get rs,po
+- kubectl exec -it <Pod name> -- /bin/bash
+  - printenv
+### Annotations
+- annotations are used external tools
+- labels are used querry the information 
 ### Load Balancers
 
 On AWS the load balancer will route the traffic to the correct pod in Kubernetes.
@@ -289,7 +351,7 @@ spec:
     app: helloworld
 type: LoadBalancer
 ```
-
+- kubectl get svc <svc name> -o yml | less
 ### Basics
 
 Internet traffic is directed to a load balancer which then does a look-up on the iptables. IPTables then directs traffic to pods containing Docker containers. Kubelet/kube-proxy also does a look-up against iptables.
@@ -339,7 +401,7 @@ Via CLI you can use:
 kubectl scale --replicas=4 -f config.yml
 ```
 
-Replication Set
+### Replication Set
 
 - Replica Set is the next-generation Replication Controller
 - It supports a new selector that can do selection based on filtering according to a set of values
@@ -347,6 +409,13 @@ Replication Set
   - not based on equality
 
 - Replica Set is used by Deployment object
+- replicaset: howmany replicas do you want
+- Selector: How can i measure that number of replicas Running or not
+- Template: What do you want we created for the replicas of
+- some usefulcommands
+   * kubectl get rs
+   * kubectl get po --show-labels -w
+   * kubectl describe rs <Pod Name>
 
 - A deployment declaration in Kubernetes allows you to do app deployments and updates
 - When using the deployment object, you define the state of your application
@@ -386,6 +455,7 @@ spec:
 Useful commands:
 
 ```
+kubect get deploy,rs,po
 kubectl get deployments - Get information on current deployments
 kubectl get rs - Get information about replica sets
 kubectl get pods --show-labels - get pods, and also show labels attached to those pods
@@ -432,10 +502,33 @@ spec:
     app: helloworld
   type: NodePort
 ```
-
+- kubectl ge po -o wide
+- kubectl exec <Pod name-1> -it -- /bin/bash
+    - ping -C <Pod-2 IP adress>
+    - cat /etc/reslov.conf <DNS Name of the server>
+-  Node to Pod Communication ping -c 1 <Pod-2 Ip adress>
+-  nslookup <svc Name>
+-  curl or wget <svc ip or name> 
+-  kubectl get endpoints <svc name>
+-  kubectl describe svc <Service Name>
+-  curl <svc IP adress>
+-  curl <svc Name.Name space>
+-  apt update && apt install dnsutils
+-  dig <pod ip>
+-  nslookup <pod ip>
+- in Node cat /etc/resolv.conf
 Default services can only run between ports 30000 - 32767, but you can change this behavior by using --service-node-port-range= to kube-apiserver.
 
 ### Labels
+Label is a key pair examples are
+app: nginx
+version: v1.0
+Labels are used to select/query kubernetes objects
+Selectors in k8s help in querying objects using labels
+selectors are of two types
+Equality Based Selectors
+ex: kubectl get po -l env=dev or env=!dev
+Set based selectors
 
 - Key/value pairs that can be attached to objects
   - Labels are like tags in AWS or other cloud providers, used to tag resources
@@ -513,7 +606,15 @@ spec:
       initialDelaySeconds: 15
       timeoutSeconds: 30
 ```
+### CronJob
 
+- kubectl apply -f <Manifest Name>
+- kubectl get cronjobs.batch
+- kubectl get jobs.batch
+- kubectl get pods
+- kubectl delete 
+- kubectl delete -f <Manifest Name> 
+- Jobs excutes Once but CronJob excutes many times
 ### Secrets
 
 - Secrets provides a way in Kubernetes to distribute credentials, keys, passwords or "secret" data to the pods.
@@ -605,6 +706,7 @@ You only need the name of the service to get back the IP address of the pod so l
 
 ### Config Map
 
+- Config Map nothing but key,value store
 - Configuration parameters that are not secret, can be put in a ConfigMap.
 - The input is key - value pairs.
 - The ConfigMap key-value pairs can then be read by the app using:
@@ -712,6 +814,9 @@ To create an AWS EC2 volume use:
 ```
 aws ec2 delete-volume --volume-id vol-hash
 ```
+- kubectl exec -it mysql -- mysql -u nop -p
+- show databases;
+- use <current database Name> # it wil change the database
 
 ### Volume Provisioning
 
@@ -1135,8 +1240,3 @@ Kubernetes provides security features like role-based access control (RBAC), Pod
 ### Extensions: 
 Kubernetes is highly extensible and allows you to integrate additional functionality through custom resources, controllers, and plugins.
 
-### crashloop Backoff occur
-- The apllication inside the container keeps crashing
-- some type of parameters of the pod or container have been configured incompletely
-   - example: Environmental varibles, parameters
-- An error have been made when deploying k8s

@@ -23,7 +23,7 @@ spec:
             - containerPort: 80
               protocol: TCP
         - name: jenkins
-          image: jenkins/jenkins
+          image: shaikkhajaibrahim/deploy-sample:v1.0
           ports:
            - containerPort: 8080
              protocol: TCP
