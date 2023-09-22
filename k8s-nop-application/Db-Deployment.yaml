@@ -1,0 +1,77 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nop
+  labels:
+    dev: pre-prod
+spec:
+  minReadySeconds: 3
+  replicas: 1
+  revisionHistoryLimit: 5
+  selector:
+    matchExpressions:
+      - key: qat
+        operator: In
+        values:
+          - jenkins
+          - nginx
+      - key: uat
+        operator: NotIn
+        values:
+          - dev
+          - pre-prod
+          - prod
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      annotations: 
+        imageregistry: https://hub.docker.com/
+      labels:
+        qat: nginx
+        uat: demo
+    spec:
+      containers:
+        - name: nopcommerce-port
+          image: nopcommerce
+          volumeMounts:
+            - name: pvc-volume
+              mountPath: /usr/share/nginx/html
+          resources:
+            requests:
+              memory: "250Mi"
+              cpu: "250m"
+            limits:
+              memory: "1.5Gi"
+              cpu: "800m"
+              
+          startupProbe:
+            failureThreshold: 2
+            periodSeconds: 2
+            successThreshold: 1
+            httpGet:
+              path: /
+              port: nopcommerce-port
+          livenessProbe:
+            failureThreshold: 3
+            periodSeconds: 2
+            successThreshold: 1
+            httpGet:
+              path: /
+              port: nopcommerce-port
+          readinessProbe:
+            failureThreshold: 4
+            periodSeconds: 1
+            successThreshold: 2
+            httpGet:
+              path: /
+              port: nopcommerce-port
+      restartPolicy: Always
+      volumes:
+        - name: pvc-volume 
+          persistentVolumeClaim:
+            claimName: pvc-claim 

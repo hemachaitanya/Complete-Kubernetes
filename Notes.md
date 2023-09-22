@@ -57,7 +57,7 @@
       - [Service Discovery](#service-discovery-1)
     - [Config Map](#config-map)
     - [Ingress](#ingress)
-    - [Volumes](#volumes)
+    - [Kubernetes Volumes](#kubernetes-volumes)
     - [Volume Provisioning](#volume-provisioning)
     - [Pet Sets](#pet-sets)
     - [Daemon Sets](#daemon-sets)
@@ -787,8 +787,14 @@ spec:
             servicePort: 80
 ```
 
-### Volumes
-
+### Kubernetes Volumes
+- Volumes: These are ephemeral nothing but temporaro storage
+  - Storage Classes: 
+    - how to create ait actual storage
+    - it will give storage to the Cluster.storege classes internally creates provisioner
+    -  this k8s storage class basically helps you in creating some kind of a storage which can by used by Persitent Volumes
+-  Persistent Volume: the disc which will given to you 
+- Persistent Volume Claim:  
 - Volumes in Kubernetes allow you to store state outside the container
 - When a container stops, all data on the container itself is lost
 - Persistent volumes in Kubernetes allow you to attach a volume to a container that will exist even when the container stops
@@ -802,7 +808,7 @@ Using volumes you could deploy applications with state on your cluster, such as:
 - Applications that need to read/write on the local file system that need to be persistent in time
 - You could run MySQL using persistent volumes
 - Volume can be attached to a new node if the original node is destroyed
-
+  
 To remove the volume from the pod use:
 
 ```
