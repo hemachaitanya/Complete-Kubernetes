@@ -6,9 +6,9 @@ metadata:
 spec:
   resources:
     requests:
-      storage: 2Gi
+      storage: "2Gi"
     limits:
-      storage: 5Gi  
+      storage: "10Gi" 
   accessModes:
     - ReadWriteOnce
   storageClassName: standard

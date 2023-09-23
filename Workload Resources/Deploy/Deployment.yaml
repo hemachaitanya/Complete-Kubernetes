@@ -10,11 +10,11 @@ kind: Deployment
 metadata:
   name: deploy
   annotations:
-    kubernetes.io/change-cause: "image updated to v3.0"
+    kubernetes.io/change-cause: "image updated to v1.0"
   namespace: uat
 spec:
   minReadySeconds: 2
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       dev: deploy
@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: webserver
-          image: batchusivaji/devops:v3.0
+          image: batchusivaji/devops:v1.0
           ports:
             - name: nodeserverport
               containerPort: 80

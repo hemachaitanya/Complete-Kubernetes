@@ -1,22 +1,22 @@
-
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nop
   labels:
-    dev: pre-prod
+    dev: nop
 spec:
-  minReadySeconds: 3
-  replicas: 1
-  revisionHistoryLimit: 5
+  minReadySeconds: 5
+  replicas: 3
+  revisionHistoryLimit: 3
   selector:
     matchExpressions:
-      - key: qat
+      - key: prod
         operator: In
         values:
           - jenkins
           - nginx
-      - key: uat
+      - key: web
         operator: NotIn
         values:
           - dev
@@ -29,49 +29,44 @@ spec:
       maxUnavailable: 25%
   template:
     metadata:
-      annotations: 
+      annotations:
         imageregistry: https://hub.docker.com/
       labels:
-        qat: nginx
-        uat: demo
+        prod: nginx
+        web: demo
     spec:
       containers:
-        - name: nopcommerce-port
-          image: nopcommerce
-          volumeMounts:
-            - name: pvc-volume
-              mountPath: /usr/share/nginx/html
+        - name: web-nopcommerce
+          image: batchusivaji/devops:v1.0
+          ports:
+            - name: nopcommerce
+              containerPort: 5000
+              protocol: TCP
           resources:
             requests:
-              memory: "250Mi"
-              cpu: "250m"
+              cpu: "0.5"
             limits:
-              memory: "1.5Gi"
-              cpu: "800m"
+              cpu: "5"
               
           startupProbe:
             failureThreshold: 2
-            periodSeconds: 2
+            periodSeconds: 7
             successThreshold: 1
             httpGet:
               path: /
-              port: nopcommerce-port
+              port: nopcommerce
           livenessProbe:
             failureThreshold: 3
             periodSeconds: 2
             successThreshold: 1
             httpGet:
               path: /
-              port: nopcommerce-port
+              port: nopcommerce
           readinessProbe:
             failureThreshold: 4
             periodSeconds: 1
             successThreshold: 2
             httpGet:
               path: /
-              port: nopcommerce-port
-      restartPolicy: Always
-      volumes:
-        - name: pvc-volume 
-          persistentVolumeClaim:
-            claimName: pvc-claim 
+              port: nopcommerce
+

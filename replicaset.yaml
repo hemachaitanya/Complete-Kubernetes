@@ -29,9 +29,9 @@ spec:
         dev: developer
     spec:
       containers:
-        - name: redis
-          image: redis
+        - name: nop
+          image: batchusivaji/nopweb:1.0
           ports:
-            - containerPort: 6379
+            - containerPort: 5000
               protocol: TCP
          

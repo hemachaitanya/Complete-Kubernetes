@@ -1,0 +1,17 @@
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: ingress
+# spec:
+#   type: ExternalName
+#   selector:
+#     prod: nginx
+#     web: demo
+#   ports:
+#     - name: ig-svc
+#       port: 5000
+#       nodePort: 31002
+#       targetPort: nopcommerce
+   
+    

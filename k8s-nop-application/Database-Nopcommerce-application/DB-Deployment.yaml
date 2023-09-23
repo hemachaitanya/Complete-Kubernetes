@@ -1,12 +1,12 @@
-
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nop
+  name: postgres
   labels:
     dev: pre-prod
 spec:
-  minReadySeconds: 3
+  minReadySeconds: 10
   replicas: 1
   revisionHistoryLimit: 5
   selector:
@@ -37,39 +37,26 @@ spec:
     spec:
       containers:
         - name: nopcommerce-port
-          image: nopcommerce
+          image: postgres:13
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: my-database 
+            - name: POSTGRES_USER
+              value: posgres-db
+            - name: POSTGRES_PASSWORD
+              value: learningthought
           volumeMounts:
             - name: pvc-volume
-              mountPath: /usr/share/nginx/html
+              mountPath: /var/lib/postgresql/data
           resources:
             requests:
               memory: "250Mi"
               cpu: "250m"
             limits:
-              memory: "1.5Gi"
-              cpu: "800m"
-              
-          startupProbe:
-            failureThreshold: 2
-            periodSeconds: 2
-            successThreshold: 1
-            httpGet:
-              path: /
-              port: nopcommerce-port
-          livenessProbe:
-            failureThreshold: 3
-            periodSeconds: 2
-            successThreshold: 1
-            httpGet:
-              path: /
-              port: nopcommerce-port
-          readinessProbe:
-            failureThreshold: 4
-            periodSeconds: 1
-            successThreshold: 2
-            httpGet:
-              path: /
-              port: nopcommerce-port
+              memory: ""
+              cpu: "1"
       restartPolicy: Always
       volumes:
         - name: pvc-volume 

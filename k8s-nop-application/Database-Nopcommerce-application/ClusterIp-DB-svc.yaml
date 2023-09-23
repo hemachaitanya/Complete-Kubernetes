@@ -10,5 +10,5 @@ spec:
     uat: demo 
   ports:
     - name: port
-      port: 3306
+      port: 5432
       protocol: TCP
