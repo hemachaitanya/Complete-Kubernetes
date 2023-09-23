@@ -55,7 +55,7 @@ spec:
               memory: "250Mi"
               cpu: "250m"
             limits:
-              memory: ""
+              memory: "800Mi"
               cpu: "1"
       restartPolicy: Always
       volumes:
