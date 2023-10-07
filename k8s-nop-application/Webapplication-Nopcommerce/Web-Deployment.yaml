@@ -6,7 +6,7 @@ metadata:
   labels:
     dev: nop
 spec:
-  minReadySeconds: 5
+  minReadySeconds: 2
   replicas: 3
   revisionHistoryLimit: 3
   selector:
@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
         - name: web-nopcommerce
-          image: batchusivaji/devops:v1.0
+          image: batchusivaji/nopweb:1.0
           ports:
             - name: nopcommerce
               containerPort: 5000
@@ -47,26 +47,32 @@ spec:
               memory: "250Mi"
               cpu: "250m"
             limits:
-              memory: "1800Mi"
-              cpu: "2"
+              memory: "5Gi"
+              cpu: "7"
               
           startupProbe:
-            failureThreshold: 2
-            periodSeconds: 7
+            initialDelaySeconds: 30
+            failureThreshold: 20
+            periodSeconds: 6
+            timeoutSeconds: 5
             successThreshold: 1
             httpGet:
               path: /
               port: nopcommerce
           livenessProbe:
             failureThreshold: 3
-            periodSeconds: 2
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 10
             successThreshold: 1
             httpGet:
               path: /
               port: nopcommerce
           readinessProbe:
             failureThreshold: 4
-            periodSeconds: 1
+            initialDelaySeconds: 10
+            timeoutSeconds: 10
+            periodSeconds: 30
             successThreshold: 2
             httpGet:
               path: /

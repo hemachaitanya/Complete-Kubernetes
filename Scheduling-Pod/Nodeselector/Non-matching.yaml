@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: non-matching
+spec:
+  nodeSelector:
+    role: webappserver
+  containers:
+    - name: redis
+      image: redis:7.2.1

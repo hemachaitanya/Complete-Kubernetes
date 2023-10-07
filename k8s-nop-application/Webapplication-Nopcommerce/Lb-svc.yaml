@@ -13,4 +13,4 @@ spec:
       protocol: TCP
       port: 5000
       targetPort: nopcommerce
-      nodePort: 31005
+      nodePort: 31000

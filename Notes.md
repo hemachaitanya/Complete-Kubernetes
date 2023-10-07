@@ -1,89 +1,6 @@
 
 # Kubernetes
 
-# Content list
-- [Kubernetes](#kubernetes)
-- [Content list](#content-list)
-    - [MiniKube Installation(1.28)](#minikube-installation128)
-    - [Key concepts of components](#key-concepts-of-components)
-      - [Containers:](#containers)
-      - [Orchestration Platform:](#orchestration-platform)
-      - [- what is container orchestration](#--what-is-container-orchestration)
-      - [kubectl: kubernetes control](#kubectl-kubernetes-control)
-    - [k8s architecture](#k8s-architecture)
-    - [components](#components)
-      - [ectd](#ectd)
-      - [kube-apiserver](#kube-apiserver)
-      - [kube-scheduler](#kube-scheduler)
-      - [kube-controller-manager](#kube-controller-manager)
-      - [kubelet](#kubelet)
-  - [Pod lifecycle or States of a Pod](#pod-lifecycle-or-states-of-a-pod)
-    - [Running:](#running)
-    - [Pending:](#pending)
-    - [Succeeded:](#succeeded)
-    - [Failed:](#failed)
-    - [unknown](#unknown)
-    - [CrashLoopBackoff](#crashloopbackoff)
-  - [Container Orchestration Features:](#container-orchestration-features)
-    - [Deployment:](#deployment)
-    - [Load Balancing:](#load-balancing)
-    - [Service Discovery:](#service-discovery)
-    - [Rolling Updates:](#rolling-updates)
-    - [Health Monitoring:](#health-monitoring)
-    - [Resource Allocation:](#resource-allocation)
-    - [Storage Orchestration:](#storage-orchestration)
-    - [Container Clusters:](#container-clusters)
-    - [API and Command-Line Interface (CLI):](#api-and-command-line-interface-cli)
-    - [Container Registry:](#container-registry)
-    - [Networking:](#networking)
-    - [Persistent Storage:](#persistent-storage)
-    - [Secrets Management:](#secrets-management)
-    - [Monitoring and Logging:](#monitoring-and-logging)
-    - [Security:](#security)
-    - [Pod](#pod)
-    - [ReplicaSet](#replicaset)
-    - [Annotations](#annotations)
-    - [Load Balancers](#load-balancers)
-    - [Basics](#basics)
-    - [Scaling](#scaling)
-    - [Replication Set](#replication-set)
-    - [Services](#services)
-    - [Labels](#labels)
-    - [Node Labels](#node-labels)
-    - [Health Checks](#health-checks)
-    - [CronJob](#cronjob)
-    - [Secrets](#secrets)
-    - [Advanced Topics](#advanced-topics)
-      - [Service Discovery](#service-discovery-1)
-    - [Config Map](#config-map)
-    - [Ingress](#ingress)
-    - [Kubernetes Volumes](#kubernetes-volumes)
-    - [Volume Provisioning](#volume-provisioning)
-    - [Pet Sets](#pet-sets)
-    - [Daemon Sets](#daemon-sets)
-    - [Resource Usage Monitoring](#resource-usage-monitoring)
-    - [Autoscaling](#autoscaling)
-    - [Resource Management](#resource-management)
-      - [Set Resource Quotas](#set-resource-quotas)
-    - [Namespaces](#namespaces)
-    - [User Management](#user-management)
-    - [Networking](#networking-1)
-    - [Node Maintenance](#node-maintenance)
-    - [High Availability](#high-availability)
-  - [Key aspects of orchestration in Kubernetes include](#key-aspects-of-orchestration-in-kubernetes-include)
-    - [Deployment:](#deployment-1)
-    - [Scaling:](#scaling-1)
-    - [Service Discovery and Load Balancing:](#service-discovery-and-load-balancing)
-    - [Rolling Updates and Rollbacks:](#rolling-updates-and-rollbacks)
-    - [Health Monitoring and Self-healing:](#health-monitoring-and-self-healing)
-    - [Resource Management:](#resource-management-1)
-    - [Configuration Management:](#configuration-management)
-    - [Storage Orchestration:](#storage-orchestration-1)
-    - [Networking:](#networking-2)
-    - [Security:](#security-1)
-    - [Extensions:](#extensions)
-
-
 Is an open-source orchestration system for Docker containers.
 
 - Lets you schedule containers on a cluster of machines
@@ -452,7 +369,7 @@ spec:
         - containerPort: 3000
 ```
 
-Useful commands:
+Useful commands for deployment:
 
 ```
 kubect get deploy,rs,po
@@ -468,7 +385,7 @@ kubectl rollout undo deployment/helloworld-deployment - Rollback to previous ver
 kubectl rollout undo deployment/helloworld-deployment --to-revision=n - Rollback to any version
 ```
 
-### Services
+### Services: 
 
 - Pods are very dynamic, they come and go on the Kubernetes cluster
   - When using a Replication Controller, pods are terminated and created during scaling operations
@@ -502,7 +419,7 @@ spec:
     app: helloworld
   type: NodePort
 ```
-- kubectl ge po -o wide
+- kubectl get pods -o wide
 - kubectl exec <Pod name-1> -it -- /bin/bash
     - ping -C <Pod-2 IP adress>
     - cat /etc/reslov.conf <DNS Name of the server>
@@ -1211,9 +1128,33 @@ services in a high availability (HA) setup
 - A cluster like minikube does not HA, it is only one cluster
 - If you are going to use a cluster on AWS, kops can do the heavy lifting for you
 
+### Scheduling and Tooling
+
+- K8s Cluster can contain multiple nodes and workloads are scheduled on the node by kube-schedule and there are different factors influencing the decision to select the node
+  - node selector
+  - node affinity
+  - taints and tolerations
+- Container Resource Limits influence this decision as kube-Scheduler will sum all the requests of container in a Pod spec and schedules it on a suitable node
+- If the Pod doesnot schedule due to insufficient resources available on nodes in the Events we will see the following reasons
+  - PodExceedsFreeCpu
+  - PodExceedsFreeMemory
+  #### Nodeselector
+
+- lets label two nodes
+- Suppose you have two nodes in your Kubernetes cluster, one labeled with role=web and another labeled with role=database. You want to schedule a pod that should run on the node with the role=web labe
+- Example:
+  - The nodeSelector field is specified under the spec section of the pod definition.
+  - We specify a node selector with the key role and the value web. This means the pod should be scheduled on a node that has a label with the key role set to web.
+  - When you apply this pod manifest to your Kubernetes cluster, the scheduler will look for nodes with the role=web label, and it will schedule the my-app-pod pod on one of those nodes. 
+  - Pod will be scheduled on node matching labels but not on not matching scenarios
+  
+  #### NodeAffinity
+-  nodeAffinity with hard and soft rules
+-  Non Matching hard or soft will not be scheduled
+  
 ## Key aspects of orchestration in Kubernetes include
 
-### Deployment: 
+### Deployment: Pod will be scheduled on node matching labels but not on not matching scenarios
 Kubernetes enables you to define and declare how your application should be deployed using a declarative configuration called a Deployment. You specify the desired state, including the number of replicas (containers) to run, the container image to use, and other configuration details. Kubernetes ensures that the actual state matches the desired state by creating or updating containers as needed.
 
 ### Scaling: 
