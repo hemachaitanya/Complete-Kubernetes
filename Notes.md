@@ -218,26 +218,28 @@ Integration with monitoring and logging tools helps track the performance and he
 Container orchestration platforms implement security features like role-based access control (RBAC), network policies, and container isolation to enhance application security
 
 ### Pod
-kubect apply -f <manifest File Name>
-kubect apply -f . <Dot means Current Directory>
-kubectl delete -f . <Dot means Current Directory>
-kubectl delete -f <mafifest File Name>
-kubectl get po or pods <it will shows all pods>
-kubectl get po -o wide 
-kubectl get po -w
-kubectl get po 'pod name' -o yml
-kubectl get po --show-labels
-kuectl describe po 'pod name'
-kubctl get po --all-namespaces
-kubectl get po -l <label name> for example app=nginx
-kubectl exec 'Pod Name' -it -- /bin/bash
-kubectl exec 'Pod Name' -it -c 'Container Name' -- /bin/bash 
-kubectl get po -o custom-columns=IP:status.podIP
-kubectl exec 'pod name' -- pwd or whoami
-kubectl exec 'Pod Name' -c 'Container Name' -- pwd or ifconfig
-kubectl config set-context --current --namespace=<namespace-name>
+
+- kubect apply -f <manifest File Name>
+- kubect apply -f . <Dot means Current Directory>
+- kubectl delete -f . <Dot means Current Directory>
+- kubectl delete -f <mafifest File Name>
+- kubectl get po or pods <it will shows all pods>
+- kubectl get po -o wide 
+- kubectl get po -w
+- kubectl get po 'pod name' -o yml
+- kubectl get po --show-labels
+- kuectl describe po 'pod name'
+- kubctl get po --all-namespaces
+- kubectl get po -l <label name> for example app=nginx
+- kubectl exec 'Pod Name' -it -- /bin/bash
+- kubectl exec 'Pod Name' -it -c 'Container Name' -- /bin/bash 
+- kubectl get po -o custom-columns=IP:status.podIP
+- kubectl exec 'pod name' -- pwd or whoami
+- kubectl exec 'Pod Name' -c 'Container Name' -- pwd or ifconfig
+- kubectl config set-context --current --namespace=<namespace-name>
 
 ### ReplicaSet
+
 Scaling: Scaling in k8s means increasing number of Pods not containers in Pod. For Scaling pods we would learn Replica set/Replication Controller etcs..
 
 - kubectl get no
