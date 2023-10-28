@@ -40,7 +40,7 @@ Kubernetes can be ran anywhere (except more integrations exists for AWS/GCE)
 
 - Things like Volumes and External Load Balancers work only with supported Cloud Providers
 - Minikube - run Kubernetes locally
-- Kops - used to spin up highly available production cluster
+
 
 
 ### MiniKube Installation(1.28)
@@ -91,7 +91,7 @@ kubeadm join 172.31.26.21:6443 --token uht9cw.03x0raodrvf6o75j \
 ```
 ![preview](images/container8.png)
 
-### Key concepts of components
+### Key concepts of k8s
 
 - what is k8s
   `k8s is a Container orchestration tool and it helps maintaing the containers`
@@ -101,7 +101,7 @@ kubeadm join 172.31.26.21:6443 --token uht9cw.03x0raodrvf6o75j \
 
 #### Orchestration Platform: 
 The container orchestration platform is a software system or service that `manages containerized applications`. Popular container orchestration platforms include `Kubernetes, Docker Swarm, and Apache Mesos`.
-#### - what is container orchestration
+####  what is container orchestration
   container orchestration nothing but `automation of the workloads`  such as  `deployment, scaling, networking , loadbalancing ,service discovery` and `manages containerized applicatons`.it will helps to deploy an application across different environments without any interruptions or need to redesign it.
 #### kubectl: kubernetes control
 - `This is a command line tool to communicate with k8s api server.`
@@ -120,7 +120,7 @@ The container orchestration platform is a software system or service that `manag
   * container engine
   * kube-proxy
 #### ectd 
-* `This is memory of k8s cluster or k8s uses etc to store all the cluster data`
+* `This is memory of the k8s cluster or k8s uses etc to store all the cluster data`
 * etcd cluster can scale across multiple nodes unlike traditional databases
 * This is distribute key-value store
   
@@ -373,7 +373,7 @@ spec:
 Useful commands for deployment:
 
 ```
-kubect get deploy,rs,po
+kubectl get deploy,rs,po
 kubectl get deployments - Get information on current deployments
 kubectl get rs - Get information about replica sets
 kubectl get pods --show-labels - get pods, and also show labels attached to those pods
