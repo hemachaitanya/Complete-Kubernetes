@@ -26,7 +26,7 @@ Kubernetes:
 - Open source
 - Backed by Google
 
-Docker Engine
+### Docker Engine
 
 - Docker runtime
 - Software to run docker images
@@ -91,25 +91,61 @@ kubeadm join 172.31.26.21:6443 --token uht9cw.03x0raodrvf6o75j \
 ```
 ![preview](images/container8.png)
 
-### Key concepts of k8s
+### what is k8s
 
 - what is k8s
   `k8s is a Container orchestration tool and it helps maintaing the containers`
 
 #### Containers: 
+
 `Containers are lightweight, portable, and isolated environments that package applications and their dependencies`. They provide consistency across different environments, such as development, testing, and production.
 
 #### Orchestration Platform: 
+
 The container orchestration platform is a software system or service that `manages containerized applications`. Popular container orchestration platforms include `Kubernetes, Docker Swarm, and Apache Mesos`.
+
 ####  what is container orchestration
+
   container orchestration nothing but `automation of the workloads`  such as  `deployment, scaling, networking , loadbalancing ,service discovery` and `manages containerized applicatons`.it will helps to deploy an application across different environments without any interruptions or need to redesign it.
+
 #### kubectl: kubernetes control
+
 - `This is a command line tool to communicate with k8s api server.`
 - Inside k8s we have a Certificate Authority and keys available which are used to secure all k8s communications.
 - The kubeconfig file contians the certificate data to be connected securely as admin into k8s (This is based on installations which we have done so far)
+  
+### key features of k8s
+
+#### High Availability:
+
+  - `When we Run our Application in Docker Containers and if Containers fails we need to Manually Start the Conatiner(Container Down)`
+  - `If the Node i.e The machine Fails all the Container Running on the same machine it Should be Re-Created on Other machine(Node Down)`
+  
+#### Auto Scaling
+
+  - scaling there are two types
+##### Horizontal Pod autoScaling
+
+- Increasing number of Containers
+  
+##### Vertical Pod autoScaling
+  
+- Increasing Size of the Conatiner
+
+#### Self-Healing
+
+ - Kubernetes continuously monitors the health of applications and if Pod fail automatically replaces new Pod
+
+#### Rolling Updates and Rollbacks
+
+- k8s supports rolling updates it means enabling update your application wwithout Downtime and if any issues after updated your application and roll back to previous version 
+  
 ### k8s architecture
+
 ![preview](images/cluster.png)
-### components
+
+
+### k8s components
 - Control Plane or Master Node
   * kube-api Server
   * kube-scheduler
