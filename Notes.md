@@ -13,9 +13,12 @@ Is an open-source orchestration system for Docker containers.
 
 - Instead of running a few docker containers manually. Kubernetes manages it for you.
 - Clusters can start with one node until thousands of nodes
-- Some other popular docker orchestrations are:
+- Some other popular container orchestrations are
+  - Kubernetes
+  - Apache Mesos
+  - Hashicorp Nomad
   - Docker Swarm
-  - Mesos
+  - Amazon ECS
 
 Kubernetes:
   - On-premise
@@ -186,6 +189,16 @@ The container orchestration platform is a software system or service that `manag
 - This reacts to requests/orders from control plane components and speaks with container runtime and gets the work done
 - If it fails responds back to control plane with status
 
+#### kube-proxy
+
+- this is responsible for networking
+- this implementations will be based on CNI
+
+#### Container Runtime
+
+- this is container engine
+- this could be docker or any other CRI compatible runtime
+
 ## Pod lifecycle or States of a Pod
 ![preview](images/Pod-Lifecycle.png)
 
@@ -212,7 +225,7 @@ The Pod status couldn’t be obtained by the API server.
    - example: Environmental varibles, parameters
 - An error have been made when deploying k8s
 
-## Container Orchestration Features:
+## Container Orchestration Features
 
 ### Deployment:
 Automatically deploy containerized applications to a cluster of machines.
