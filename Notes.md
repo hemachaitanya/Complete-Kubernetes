@@ -36,7 +36,7 @@ Docker Hub
 - Online service to store and fetch docker images
 - Also allows you to build docker images online
 
-Kubernetes can be ran anywhere (except more integrations exists for AWS/GCE)
+Kubernetes can be ran anywhere (except more integrations exists for AWS/GCE/Azure)
 
 - Things like Volumes and External Load Balancers work only with supported Cloud Providers
 - Minikube - run Kubernetes locally
@@ -96,25 +96,25 @@ kubeadm join 172.31.26.21:6443 --token uht9cw.03x0raodrvf6o75j \
 - what is k8s
   `k8s is a Container orchestration tool and it helps maintaing the containers`
 
-#### Containers: 
+### Containers: 
 
 `Containers are lightweight, portable, and isolated environments that package applications and their dependencies`. They provide consistency across different environments, such as development, testing, and production.
 
-#### Orchestration Platform: 
+### Orchestration Platform
 
 The container orchestration platform is a software system or service that `manages containerized applications`. Popular container orchestration platforms include `Kubernetes, Docker Swarm, and Apache Mesos`.
 
-####  what is container orchestration
+###  what is container orchestration
 
   container orchestration nothing but `automation of the workloads`  such as  `deployment, scaling, networking , loadbalancing ,service discovery` and `manages containerized applicatons`.it will helps to deploy an application across different environments without any interruptions or need to redesign it.
 
-#### kubectl: kubernetes control
+### kubectl: kubernetes control
 
 - `This is a command line tool to communicate with k8s api server.`
 - Inside k8s we have a Certificate Authority and keys available which are used to secure all k8s communications.
 - The kubeconfig file contians the certificate data to be connected securely as admin into k8s (This is based on installations which we have done so far)
   
-### key features of k8s
+## key features of k8s
 
 #### High Availability:
 
@@ -124,6 +124,7 @@ The container orchestration platform is a software system or service that `manag
 #### Auto Scaling
 
   - scaling there are two types
+  - 
 ##### Horizontal Pod autoScaling
 
 - Increasing number of Containers
@@ -253,7 +254,7 @@ Integration with monitoring and logging tools helps track the performance and he
 ### Security: 
 Container orchestration platforms implement security features like role-based access control (RBAC), network policies, and container isolation to enhance application security
 
-### Pod
+### k8s commands
 
 - kubect apply -f <manifest File Name>
 - kubect apply -f . <Dot means Current Directory>
