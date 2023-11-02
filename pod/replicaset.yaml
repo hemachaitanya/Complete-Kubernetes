@@ -1,0 +1,21 @@
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name:  my-replicaset-app
+spec:
+  minReadySeconds: 2
+  replicas: 5
+  selector:
+    matchLabels:
+      env1: dev
+  template:
+    metadata:
+      labels:
+        env1: dev
+    spec:
+      containers:
+        - name: nop
+          image: batchusivaji/nopcommerce:latest
+          ports:
+            - containerPort: 5000

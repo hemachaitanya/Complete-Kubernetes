@@ -4,7 +4,7 @@
 # metadata:
 #   name: ingress
 # spec:
-#   type: ExternalName
+#   type: Loadbalancer
 #   selector:
 #     prod: nginx
 #     web: demo

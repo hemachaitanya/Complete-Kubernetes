@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres
+        image: postgres:latest
+        imagePullPolicy: "IfNotPresent"
+        ports:
+           - containerPort: 5432
+        env:
+          - name: POSTGRES_DB
+            value: db-nop
+          - name: POSTGRES_USER
+            value: nop
+          - name: POSTGRES_PASSWORD
+            value: nop123
+        volumeMounts:
+             - name: pvc-volume
+               mountPath: /data/volume
+        resources:
+          requests:
+            memory: "250Mi"
+            cpu: "250m"
+          limits:
+            memory: "800Mi"
+            cpu: "1"
+      restartPolicy: Always
+      volumes:
+         - name: pvc-volume 
+           persistentVolumeClaim:
+             claimName: new-pvc-claim
+ 

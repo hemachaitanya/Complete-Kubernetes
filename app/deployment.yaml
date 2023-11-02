@@ -1,0 +1,90 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  minReadySeconds: 2
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchExpressions:
+      - key: prod
+        operator: In
+        values:
+          - jenkins
+          - nginx
+      - key: web
+        operator: NotIn
+        values:
+          - dev
+          - pre-prod
+          - prod
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      annotations:
+        imageregistry: https://hub.docker.com/
+      labels:
+        prod: nginx
+        web: demo
+    spec:
+      containers:
+        - name: your-app
+          image: batchusivaji/nopcommerce:latest
+          ports:
+           - name: nopcommerce
+             containerPort: 5000
+             protocol: TCP
+          env:
+            - name: POSTGRES_HOST
+              value: postgres-service
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DB
+              value: postgres-deployment
+            - name: POSTGRES_USER
+              value: nop
+            - name: POSTGRES_PASSWORD
+              value: nop123
+          resources:
+            requests:
+              memory: "250Mi"
+              cpu: "250m"
+            limits:
+              memory: "5Gi"
+              cpu: "7"
+              
+          startupProbe:
+            initialDelaySeconds: 30
+            failureThreshold: 20
+            periodSeconds: 6
+            timeoutSeconds: 5
+            successThreshold: 1
+            httpGet:
+              path: /
+              port: nopcommerce
+          livenessProbe:
+            failureThreshold: 3
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            httpGet:
+              path: /
+              port: nopcommerce
+          readinessProbe:
+            failureThreshold: 4
+            initialDelaySeconds: 10
+            timeoutSeconds: 10
+            periodSeconds: 30
+            successThreshold: 2
+            httpGet:
+              path: /
+              port: nopcommerce
+
+

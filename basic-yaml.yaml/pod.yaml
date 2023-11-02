@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: pod
+  labels:
+    app: env
+  namespace: dev
+spec:
+  minReadySeconds: 1
+  replicas: 2
+  selector:
+    matchLabels:
+      env: pre-po
+      
+  template:
+    metadata:
+      labels:
+        env: pre-po
+    spec:
+      containers:
+        - name: pod
+          image: batchusivaji/nopcommerce:latest
+          args:
+            - sleep
+            - 1d
+          ports:
+            - name: nop-1
+              containerPort: 5000
+              protocol: TCP
+        - name: pod
+          image: nginx
+          args:
+            - sleep
+            - 1d
+          ports:
+            - name: nginx
+              containerPort: 80
+              protocol: TCP
+    
+      

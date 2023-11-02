@@ -1,6 +1,7 @@
 
 # Kubernetes
 
+
 Is an open-source orchestration system for Docker containers.
 
 - Lets you schedule containers on a cluster of machines
@@ -88,7 +89,7 @@ kubeadm join 172.31.26.21:6443 --token uht9cw.03x0raodrvf6o75j \
 ```
 ![preview](images/container7.png)
 
-- Now kuberentes needs CNI Plugin so that pod-network is enabled. Till this is done the DNS doesnot work, services donot work so nodes are shown as NotReady. it will intall flannel Network on Master Node
+- Now kuberentes needs CNI Plugin so that pod-network is enabled. Till this is done the DNS doesnot work, services donot work so nodes are shown as NotReady. it will install flannel Network on Master Node
 ```yml
 - kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
 ```
@@ -201,7 +202,7 @@ The container orchestration platform is a software system or service that `manag
 
 ## Pod lifecycle or States of a Pod
 ![preview](images/Pod-Lifecycle.png)
-
+  
 ### Running:
 Once all the containers in the POD starts, it goes in to running state.
 
@@ -1294,3 +1295,20 @@ Use tools like kubectl describe to inspect specific resources for more detailed 
 Kubernetes-troubleshoouting-images:
 ![preview](images/cka43.jpeg)
 
+### K8s Service Types: NodePort 
+
+In # Kubernetes , a Service is an abstraction that defines a logical set of Pods and a policy by which to access them. 
+There are various types of Services, and # NodePort is one of them.
+
+👉 What is NodePort? 
+A NodePort Service in K8s makes your application accessible from outside the K8s cluster by opening a specific port on all the nodes (machines) in the cluster. This means that any traffic sent to this port on any node will be forwarded to the Service, and then to the # Pods that the # Service is set to target.
+
+👉 How Does It Work? 
+1- Define the NodePort Service : When you create a NodePort Service, you specify the port that will be opened on the nodes. This port is randomly selected from a configured range (default is 30000-32767) if not specified.
+2- Traffic Forwarding : Once the Service is created, traffic sent to any node in the cluster on the specified NodePort will be forwarded to the Service, and then to one of the Pods that the Service targets.
+3- Accessing the App : You can access your app from outside the K8s cluster by sending traffic to <NodeIP>:<NodePort>, where <NodeIP> is the IP address of any node in the cluster, and <NodePort> is the port opened by the Service.
+
+👉  Example Use Case 
+Imagine you have a web app running in a K8s cluster, and you want to make it accessible from the internet. You can create a NodePort Service to expose a specific port on all the nodes in the cluster. For example, if your Service is configured to expose port 31000, you can access your application by visiting http://<NodeIP>:31000 from any web browser.
+
+ This type of Service is especially useful for development and testing purposes, where you might want to quickly expose an application running in a cluster without setting up more complex networking configurations.

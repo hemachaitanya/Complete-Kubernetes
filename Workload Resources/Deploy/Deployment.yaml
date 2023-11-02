@@ -10,7 +10,7 @@ kind: Deployment
 metadata:
   name: deploy
   annotations:
-    kubernetes.io/change-cause: "image updated to v3.0"
+    kubernetes.io/change-cause: "batchusivaji/devops:v3.0"
   namespace: uat
 spec:
   minReadySeconds: 2
