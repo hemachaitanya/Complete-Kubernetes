@@ -106,12 +106,6 @@ kubelet
 
 - this is container engine
 - this could be docker or any other CRI compatible runtime
-
-**Pod**: one or more containers running together on one Node
-  - Basic unit of k8s cluster. Containers are always in pods.
-  - each pod has unique ip address
-  - IP addresses are associated with pods, not with individual containers
-  - Containers in a pod share `localhost`, and can share volumes (containers in the same pod can communicate via localhost)
   
 ##  Pod lifecycle or States of a Pod
 
@@ -158,15 +152,15 @@ kubelet
     -   `kind:`
     -   `metadata:`
     -   `spec:`
-**apiVersion**:
-**kind**: what type of Kubernetes resource you are creating. It specifies the kind of object you want to create
+**apiVersion**:what type of version the `Kubernetes API used to create the object`
+**kind**: what type of Kubernetes resource you are creating. `It specifies the kind of object you want to create`
   -  example: Pod,Deployment,Service,ConfigMap, etc.   
   -   `kubectl api-resources`
 -   `apiVersion`:
     -   `kubectl api-versions`
     -   Old api version with new cluster can result in some issues with deploying
-**metadata**: only name is required
-**spec**: The spec section is where you define the desired state of the resource.
+**metadata**:metadata that helps `uniquely identify the object`, including a name and optional namespace
+**spec**: `configuration that defines the desired for the object`
 
 #### Building the YAML spec
 -   `kubectl explain services --recursive`: getting all the keys each kind support
@@ -190,8 +184,30 @@ kubelet
 - Stateful Services
 - Services and EndPoints
 
+### **Pod**: 
+  - one or more containers running together on one Node
+  - smallest unit of k8s cluster that can be created, schedule, and managed on a Kubernetes cluster. Each pod is assigned a `unique IP address` within the cluster. Containers are always in pods.
+  - Kubernetes doesn’t run containers directly; instead it wraps one or more containers into a higher-level structure called a pod
+  - each pod has unique ip address
+  - IP addresses are associated with pods, not with individual containers
+  - Containers in a pod share `localhost`, and can share volumes (containers in the same pod can communicate via localhost)
 
+- Example: 
+```yml
+apiVersion: v1 # what type of version you are using Kubernetes API
+kind: Pod # what type of resource you have created
+metadata:
+  name: k8s1 # unique identification of the name
+  labels:
+    env1: dev # querry the information
+spec: #where you define the specification for the Pod, including its containers.
+  containers:
+    - name: nop #name of the container
+      image: batchusivaji/nopcommerce:latest #specifies the name of the image to use
+      ports:
+        - containerPort: 5000 # which port are you run your application 
 
+```
 
 
 

@@ -81,7 +81,7 @@ Execute the following on master node
   sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
   sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
-now we can excute the below command on Worker Node
+now we can excute the below command on Worker Node root user
 ```yml
 kubeadm join 172.31.26.21:6443 --token uht9cw.03x0raodrvf6o75j \
         --discovery-token-ca-cert-hash sha256:792e73270dba37a81ec3b3e519982f2cc70a2429f7db431ffe6b1555471822b0 \
