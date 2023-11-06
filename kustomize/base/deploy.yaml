@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy
+  namespace: default
+  labels:
+    app: pre-prod
+spec:
+  minReadySeconds: 1
+  replicas: 1
+  selector:
+    matchLables:
+      dev: app
+  template:
+    metadata:
+      labels:
+        dev: app
+    spec:
+      containers:
+        - name: nopcommerce
+          image: bat
+  
