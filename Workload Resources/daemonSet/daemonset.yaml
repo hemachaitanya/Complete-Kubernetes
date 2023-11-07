@@ -1,0 +1,15 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: daemonset
+spec:
+  minReadySeconds: 1
+  selector:
+    matchLables:
+      app: dev-env
+  template:
+    metadata:
+      lables:
+      
+    spec:

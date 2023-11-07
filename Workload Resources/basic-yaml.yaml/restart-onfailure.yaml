@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: restart-onfailure
+  labels:
+    app: alpine-app
+    env: dev-environment
+spec:
+  restartPolicy: OnFailure
+  containers:
+    - name: alpine
+      image: alpine
+      args:
+        - sleep
+        - 1mb
+    - name: alpine
+      image: alpine
+      args:
+        - sleep
+        - 10s

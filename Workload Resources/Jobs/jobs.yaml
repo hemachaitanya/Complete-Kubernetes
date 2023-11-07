@@ -1,0 +1,25 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job
+  labels:
+    env: qa
+spec:
+  selector:
+    mattchLabels:
+      labels:
+        app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          args:
+            - sleep
+            - 10s
+          ports:
+            - containerPort: 80
