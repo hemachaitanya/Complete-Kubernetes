@@ -2,22 +2,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deploy
-  namespace: default
+  name: deployment-manifest
   labels:
-    app: pre-prod
+    env: qa
+    purpose: deploy
 spec:
-  minReadySeconds: 1
+  minReadySeconds: 2
   replicas: 1
   selector:
-    matchLables:
-      dev: app
-  template:
+    matchLabels:
+      dev: app  
+  template: # Pod template
     metadata:
+      name: nginx
       labels:
         dev: app
     spec:
       containers:
-        - name: nopcommerce
-          image: bat
+        - name: nginx
+          image: nginx:1.25
+          ports:
+            - containerPort: 80
   
