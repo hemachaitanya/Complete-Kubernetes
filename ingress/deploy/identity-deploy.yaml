@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identity-deploy
+spec:
+  minReadySeconds: 2
+  selector:
+    matchExpressions:
+      - key: identity
+        operator: In
+        values:
+          - login
+          - logout
+      - key: logo
+        operator: NotIn
+        values:
+          - feature
+          - design
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        identity: login
+        logo: colour
+
+    spec:
+      containers:
+        - name: identity
+          image: 
+          imagePullPolicy: 
+          ports:
+            - containerPort: 80
+      
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: identity-svc
+spec:
+  type: LoadBalancer
+  selector:
+    identity: login
+    logo: colour
+  ports:
+    - port: 80

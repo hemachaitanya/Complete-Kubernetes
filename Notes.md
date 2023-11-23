@@ -1,7 +1,6 @@
 
 # Kubernetes
 
-
 Is an open-source orchestration system for Docker containers.
 
 - Lets you schedule containers on a cluster of machines
@@ -1312,3 +1311,4 @@ A NodePort Service in K8s makes your application accessible from outside the K8s
 Imagine you have a web app running in a K8s cluster, and you want to make it accessible from the internet. You can create a NodePort Service to expose a specific port on all the nodes in the cluster. For example, if your Service is configured to expose port 31000, you can access your application by visiting http://<NodeIP>:31000 from any web browser.
 
  This type of Service is especially useful for development and testing purposes, where you might want to quickly expose an application running in a cluster without setting up more complex networking configurations.
+

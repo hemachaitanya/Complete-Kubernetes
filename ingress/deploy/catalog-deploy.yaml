@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-deploy
+spec:
+  minReadySeconds: 2
+  selector:
+    matchExpressions:
+      - key: online
+        operator: In
+        values:
+          - flipkart
+          - amazon
+      - key: educational
+        operator: NotIn
+        values:
+          - classe shedules
+          - courses
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        online: amazon
+        educational: acadamic-programs
+
+    spec:
+      containers:
+        - name: catalog
+          image: 
+          imagePullPolicy: 
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog-svc
+spec:
+  type: LoadBalancer
+  selector:
+    online: amazon
+    educational: acadamic-programs
+  ports:
+    - port: 80

@@ -5,7 +5,7 @@ metadata:
   name:  my-replicaset-app
 spec:
   minReadySeconds: 2
-  replicas: 5
+  replicas: 10
   selector:
     matchLabels:
       env1: dev

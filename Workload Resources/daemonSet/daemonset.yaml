@@ -11,5 +11,15 @@ spec:
   template:
     metadata:
       lables:
-      
+        app: dev-env
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxsurge: 25%
+      maxunavailable: 25% 
     spec:
+      containers:
+        - name: jenkins
+          image: jenkins/jenkins
+          ports:
+            - containerPort: 8080

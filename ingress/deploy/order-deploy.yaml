@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-deploy
+spec:
+  minReadySeconds: 2
+  selector:
+    matchExpressions:
+      - key: order
+        operator: In
+        values:
+          - place
+          - payment
+      - key: Pricing
+        operator: NotIn
+        values:
+          - promotions
+          - discounts
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        order: place
+        Pricing: high
+
+    spec:
+      containers:
+        - name: identity
+          image: 
+          imagePullPolicy: 
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-svc
+spec:
+  type: LoadBalancer
+  selector:
+    order: place
+    Pricing: high
+  ports:
+    - port: 80

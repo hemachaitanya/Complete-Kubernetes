@@ -5,13 +5,13 @@ metadata:
   name:  my-replication-controller
 spec:
   minReadySeconds: 2
-  replicas: 1
+  replicas: 10
   selector:
-    env: dev
+    env1: dev
   template:
     metadata:
       labels:
-        env: dev
+        env1: dev
     spec:
       containers:
         - name: nop
