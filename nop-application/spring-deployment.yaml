@@ -2,25 +2,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spring-app
+  name: nop-db-k8s
   labels:
-    name: spring-app-k8s
+    name: nop-db-k8s-app
 spec:
   minReadySeconds: 2
   replicas: 3
   selector:
     matchLabels:
-      app: spring-app-k8s
+      app: nop-db-k8s-app
   template:
     metadata:
       labels:
-        app: spring-app-k8s
+        app: nop-db-k8s-app 
     spec:
       containers:
-        - name: spring
-          image:
+        - name: nop-db-k8s
+          image: batchusivaji/nopcommerce:latest
           ports:
-            - containerPort: 8080
+            - containerPort: 5000
           env: # Setting Enviornmental Variables
             - name: DB_HOST  # Setting Database host address from configMap
               valueFrom:
@@ -31,7 +31,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: db-user-name
-                  key: name
+                  key: host
             - name: DB_USERNAME  # Setting Database username from Secret
               valueFrom:
                  secretKeyRef:
@@ -39,7 +39,7 @@ spec:
                   key: username
             -  name: DB_PASSWORD # Setting Database password from Secret
                valueFrom:
-                 configMapKeyRef:
+                 secretKeyRef:
                    name: db-credetials
                    key: password
 
@@ -51,15 +51,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: spring-svc
+  name: nop-db-k8s-svc
   labels:
-    app: spring-app-k8s
+    app: nop-db-k8s-app-k8s
 spec:
   type: LoadBalancer
   selector:
-    app: spring-app-k8s
+    app: nop-db-k8s-app-k8s
   ports:
     - port: 80
       protocol: TCP
-      targetPort: 8080
-      nodePort: 31000
+      targetPort: 5000
+      nodePort: 32000

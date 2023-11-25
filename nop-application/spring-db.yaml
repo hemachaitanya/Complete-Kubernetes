@@ -5,7 +5,7 @@ kind: Deployment
 metadata:
   name: spring-db
   labels:
-    app: spring-db-k8s
+    app: nop-db-k8s
 spec:
   minReadySeconds: 2 # this is how many seconds should run pods
   replicas: 1 # how many pods shouls i want
@@ -13,15 +13,15 @@ spec:
     type: Recreate
   selector: # mysql Pod Should contain same labels 
     matchLabels:
-      app: spring-db-k8s
+      app: nop-db-k8s
   template:
     metadata:
       labels:  # Must match 'Service' and 'Deployment' selectors
-         app: spring-db-k8s
+         app: nop-db-k8s
     spec:
       containers:
         - name: spring-db
-          image: mysql:5.7  # image from docker-hub
+          image: mysql:8.0  # image from docker-hub
           ports:
             - containerPort: 3306
           env: # Setting Enviornmental Variables
@@ -44,7 +44,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: db-user-name
-                  key: mysql-db
+                  key: name
           volumeMounts:
             - name: db-pvc-storage    # Mounting voulume obtained from Persistent Volume Claim
               mountPath: /var/lib/mysql #This is the path in the container on which the mounting will take place.
@@ -58,13 +58,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: spring-db-k8s  # DNS name 
+  name: nop-db-k8s  # DNS name 
   labels:
-    app: spring-db-k8s  # mysql Pod Should contain same labels
+    app: nop-db-k8s  # mysql Pod Should contain same labels
 spec:
   type: LoadBalancer  # We Use DNS, Thus ClusterIP is not relevant
   selector:
-    app: spring-db-k8s
+    app: nop-db-k8s
   ports:
     - port: 80
       targetPort: 3306
