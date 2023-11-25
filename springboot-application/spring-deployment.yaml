@@ -1,0 +1,65 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-app
+  labels:
+    name: spring-app-k8s
+spec:
+  minReadySeconds: 2
+  replicas: 3
+  selector:
+    matchLabels:
+      app: spring-app-k8s
+  template:
+    metadata:
+      labels:
+        app: spring-app-k8s
+    spec:
+      containers:
+        - name: spring
+          image:
+          ports:
+            - containerPort: 8080
+          env: # Setting Enviornmental Variables
+            - name: DB_HOST  # Setting Database host address from configMap
+              valueFrom:
+                configMapKeyRef:
+                  name: db-user-name
+                  key: host
+            - name: DB_NAME  # Setting Database name from configMap
+              valueFrom:
+                configMapKeyRef:
+                  name: db-user-name
+                  key: name
+            - name: DB_USERNAME  # Setting Database username from Secret
+              valueFrom:
+                 secretKeyRef:
+                  name: db-credetials  # Secret Name
+                  key: username
+            -  name: DB_PASSWORD # Setting Database password from Secret
+               valueFrom:
+                 configMapKeyRef:
+                   name: db-credetials
+                   key: password
+
+
+     
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-svc
+  labels:
+    app: spring-app-k8s
+spec:
+  type: LoadBalancer
+  selector:
+    app: spring-app-k8s
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 8080
+      nodePort: 31000

@@ -2,24 +2,20 @@
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: daemonset
+  name: daemonset-1
 spec:
   minReadySeconds: 1
   selector:
-    matchLables:
+    matchLabels:
       app: dev-env
   template:
     metadata:
-      lables:
+      labels:
         app: dev-env
-  updateStrategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxsurge: 25%
-      maxunavailable: 25% 
     spec:
       containers:
         - name: jenkins
           image: jenkins/jenkins
           ports:
             - containerPort: 8080
+
