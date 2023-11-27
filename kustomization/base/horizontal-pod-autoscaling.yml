@@ -1,0 +1,13 @@
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: nop
+  namespace: dev
+spec:
+  maxReplicas: 8
+  minReplicas: 2
+  scaleTargetRef:
+    kind: deployment
+    name: nop-deployment
+  targetCPUUtilizationPercentage: 65
