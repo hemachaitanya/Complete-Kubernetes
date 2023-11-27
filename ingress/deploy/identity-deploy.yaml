@@ -31,8 +31,8 @@ spec:
     spec:
       containers:
         - name: identity
-          image: 
-          imagePullPolicy: 
+          image: batchusivaji/deploy:v2.0
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
       
@@ -48,3 +48,4 @@ spec:
     logo: colour
   ports:
     - port: 80
+      protocol: TCP

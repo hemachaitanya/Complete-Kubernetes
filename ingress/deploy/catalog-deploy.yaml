@@ -15,7 +15,7 @@ spec:
       - key: educational
         operator: NotIn
         values:
-          - classe shedules
+          - classe-shedules
           - courses
   strategy:
     type: RollingUpdate
@@ -31,8 +31,8 @@ spec:
     spec:
       containers:
         - name: catalog
-          image: 
-          imagePullPolicy: 
+          image: batchusivaji/deploy:v1.0
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
 
@@ -48,3 +48,4 @@ spec:
     educational: acadamic-programs
   ports:
     - port: 80
+      protocol: TCP
