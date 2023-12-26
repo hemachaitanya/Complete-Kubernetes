@@ -2,21 +2,21 @@
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name:  my-replicaset-app
+  name: rs
 spec:
   minReadySeconds: 2
-  replicas: 5
+  replicas: 15
   selector:
     matchLabels:
-      env1: dev
+      app: nginx
   template:
     metadata:
       labels:
-        env1: dev
-    spec:
+        app: nginx
+    spec: 
+      tolerations:
+        - effect: NoSchedule
+          operator: Exists    
       containers:
         - name: nginx
-          image: batchusivaji/nopcommerce:latest
-
-          ports:
-            - containerPort: 5000
+          image: nginx

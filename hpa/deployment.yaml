@@ -1,0 +1,50 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy
+  annotations:
+    kubernetes.io/change-cause: "batchusivaji/devops:v3.0"
+spec:
+  minReadySeconds: 2
+  replicas: 1
+  selector:
+    matchLabels:
+      dev: deploy
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template: # Pod template
+    metadata:
+      labels:
+        dev: deploy
+    spec:
+      containers:
+        - name: webserver
+          image: batchusivaji/devops:v3.0
+          ports:
+            - name: nodeserverport
+              containerPort: 80
+              protocol: TCP
+          resources:
+            requests:
+              cpu: "0.1m"
+              memory: "150Mi"
+            limits:
+              cpu: "0.3m"
+              memory: "350Mi"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            failureThreshold: 3
+            successThreshold: 1 
+          readinessProbe:
+            httpGet: 
+              path: /
+              port: 80
+            failureThreshold: 3
+            successThreshold: 1
+            periodSeconds: 1

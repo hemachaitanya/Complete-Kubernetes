@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: downward
+  labels:
+    app: httpd
+spec:
+  minReadySeconds: 2
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dwn
+  template:
+    metadata:
+      labels:
+        app: dwn
+    spec:
+      containers:
+        - name: httpd
+          image: httpd
+          ports:
+            - name: httpd-port-name
+              containerPort: 80
+              protocol: TCP
+          command:
+            - sleep
+            - 10m
+          resources:
+            limits:
+              cpu : "0.3"
+              memory: "300Mi"
+            requests:
+              cpu : "0.1"
+              memory: "100Mi"
+          env:
+            - name: "HTTPD_HOST"
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          volumeMounts:
+            - mountPath: /etc/pod-info
+              name: pod-info
+      volumes:
+        - name: pod-info
+          downwardAPI:
+            items:
+              - path: limit-cpu-millicores
+                resourceFieldRef:
+                  containerName: httpd
+                  resource: limits.cpu
+                  divisor: 1m
+              - path: limits-memory-size
+                resourceFieldRef:
+                  containerName: httpd
+                  resource: limits.memory
+                  divisor: 1Gi
+              - path: labels
+                fieldRef:
+                  fieldPath: metadata.labels
+        

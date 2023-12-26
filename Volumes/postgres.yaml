@@ -1,0 +1,69 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: secret
+data:
+  passwd: cm9vdHJvb3Q=
+  
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configamp
+data:
+  username: admin
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  minReadySeconds: 2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qa
+  template:
+    metadata:
+      labels:
+        app: qa
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          ports:
+            - containerPort:   5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+               configMapKeyRef:
+                  key: username
+                  name: configmap 
+            - name: POSTGRES_PASSWORD
+              value: "admin"
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: "admin"
+              valueFrom:
+                secretKeyRef:
+                  key: passwd
+                  name: secret
+            - name: POSTGRES_DB
+              value: postgress
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  selector:
+    app: mongodb
+  ports:
+    - protocol: TCP
+      port:  5432
+      targetPort: 5432
+
+
+

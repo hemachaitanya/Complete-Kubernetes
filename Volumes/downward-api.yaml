@@ -1,0 +1,25 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  volumes:
+    - name: labels
+      downwardAPI:
+        items:
+          - path: "labels"
+            fieldRef:
+              fieldPath: metadata.labels
+  containers:
+    - name: nginx
+      image: nginx
+      command: ['sh','-c','echo $NAME_SPACE && echo labels && sleep 10m' ]
+      env:
+        - name: NAME_SPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+      volumeMounts:
+        - mountPath: /etc/lebel.info
+          name: labels

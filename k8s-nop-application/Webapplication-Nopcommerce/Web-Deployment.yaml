@@ -37,7 +37,7 @@ spec:
     spec:
       containers:
         - name: web-nopcommerce
-          image: batchusivaji/nopweb:1.0
+          image: batchusivaji/nopcommerce:latest
           ports:
             - name: nopcommerce
               containerPort: 5000

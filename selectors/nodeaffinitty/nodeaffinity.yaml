@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodename
+spec:
+  affinity:
+    nodeAffinity:
+      # requiredDuringSchedulingIgnoredDuringExecution:
+      #   nodeSelectorTerms:
+      #     - matchExpressions:
+      #         - key: rank
+      #           operator: Gt
+      #           values:
+      #             - "11"
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - preference:
+            matchExpressions:
+              - key: service
+                operator: In
+                values: 
+                  - jenkins
+          weight: 80
+        - weight: 20
+          preference:
+            matchExpressions:
+              - key: service
+                operator: In
+                values:
+                  - terraform
+  containers:
+    - name: nginx
+      image: nginx

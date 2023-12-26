@@ -1,11 +1,11 @@
 ---
 apiVersion: apps/v1
-kind: ReplicaSet
+kind: Deployment
 metadata:
   name:  my-replicaset-app
 spec:
   minReadySeconds: 2
-  replicas: 5
+  replicas: 10
   selector:
     matchLabels:
       env1: dev
@@ -16,7 +16,6 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: batchusivaji/nopcommerce:latest
-
+          image: nginx
           ports:
             - containerPort: 5000

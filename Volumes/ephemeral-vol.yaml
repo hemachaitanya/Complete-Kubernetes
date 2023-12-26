@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ephemeral-vol
+spec:
+  containers:
+    - name: alpine
+      image: alpine
+      command:
+        - sleep
+        - 20m
+      volumeMounts:
+        - name: ephemeral
+          mountPath: "/dev/demo"
+  volumes:
+    - name: ephemeral
+      ephemeral:
+        volumeClaimTemplate:
+          metadata:
+            labels:
+              app: dev
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            storageClassName: standard
+            resources:
+              requests:
+                storage: 1Gi
+                
+            

@@ -1,0 +1,10 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodename
+spec:
+  nodeName: gke-kubernetes-engine-default-pool-87e5e807-lcpz
+  containers:
+    - name: nginx
+      image: nginx

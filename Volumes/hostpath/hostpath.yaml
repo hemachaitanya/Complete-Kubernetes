@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  volumes:
+    - name: my-volume
+      hostPath:
+        path: /dev/devops
+  containers:
+    - name: nginx
+      image: nginx
+      command:
+        - "/bin/bash"
+      args:
+        - "-c"
+        - "echo hai this is for using data purpuse i am  writing > /devops/content.txt && sleep 1d"
+      volumeMounts:
+        - mountPath: /devops
+          name: my-volume
+      

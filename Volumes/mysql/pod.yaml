@@ -1,0 +1,40 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qa
+  template:
+    metadata:
+      labels:
+        app: qa
+    spec:
+      volumes:
+        - name: my-pvc
+          persistentVolumeClaim:
+            claimName: pvc-claim 
+      containers:
+        - name: my-sql
+          image: mysql:8.0
+          ports:
+            - name: mysql-db
+              containerPort: 3306 
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: my-pvc
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: admin
+            - name: MYSQL_USER
+              value: admin
+            - name: MYSQL_PASSWORD
+              value: admin
+            - name: MYSQL_DATABASE
+              value: mysql
+              
+ 
+ 

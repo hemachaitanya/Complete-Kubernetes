@@ -2,28 +2,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: k8s1
-  labels:
-    env1: dev
-spec:
-  containers:
-    - name: nop
-      image: batchusivaji/nopcommerce:latest
-      ports:
-        - containerPort: 5000
----
-apiVersion: v1
-kind: Pod
-metadata:
   name: k8s2
   labels:
     env1: dev
 spec:
   containers:
-    - name: nop
-      image: batchusivaji/nopcommerce:latest
+    - name: nginx-1
+      image: nginx
       ports:
-        - containerPort: 5000
+        - containerPort: 80
 
 ---
 apiVersion: v1
@@ -34,10 +21,10 @@ metadata:
     env1: dev
 spec:
   containers:
-    - name: nop
-      image: batchusivaji/nopcommerce:latest
+    - name: nginx-2
+      image: nginx
       ports:
-        - containerPort: 5000
+        - containerPort: 80
 ---
 apiVersion: v1
 kind: Pod
@@ -47,10 +34,10 @@ metadata:
     env1: dev
 spec:
   containers:
-    - name: nop
-      image: batchusivaji/nopcommerce:latest
+    - name: nginx-3
+      image: nginx
       ports:
-        - containerPort: 5000
+        - containerPort: 80
 ---
 apiVersion: v1
 kind: Pod
@@ -60,10 +47,10 @@ metadata:
     env1: dev
 spec:
   containers:
-    - name: nop
-      image: batchusivaji/nopcommerce:latest
+    - name: nginx-4
+      image: nginx
       ports:
-        - containerPort: 5000
+        - containerPort: 80
 
 ---
 apiVersion: v1
@@ -74,7 +61,7 @@ metadata:
     env1: dev
 spec:
   containers:
-    - name: nop
-      image: batchusivaji/nopcommerce:latest
+    - name: nginx-5
+      image: nginx
       ports:
-        - containerPort: 5000
+        - containerPort: 80

@@ -1,0 +1,45 @@
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: rs
+spec:
+  minReadySeconds: 2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: cloud
+                    operator: In  
+                    values:
+                      - aws        
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - preference:
+                matchExpressions:
+                  - key: size
+                    operator: In
+                    values:
+                      - large
+              weight: 20
+            # - preference:
+            #     matchExpressions:
+            #       - key: cloud
+            # #         operator: In
+            # #         values:
+            # #           - aws
+            # #           - azure
+            #   weight: 20
+          
+      containers:
+        - name: nginx
+          image: nginx

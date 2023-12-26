@@ -1,0 +1,79 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: projected
+  namespace: default
+  labels:
+    app: project-vol
+spec:
+  containers:
+    - name: nginx
+      image: nginx
+      args:
+        - while true; do
+            if [[ -e /etc/podinfo/name ]]; then
+              echo -en '\n\n'; cat /etc/podinfo/name
+            fi
+            if [[ -e /etc/podinfo/labels ]]; then
+              echo -en '\n\n'; cat /etc/podinfo/labels
+            fi
+            if [[ -e /etc/podinfo/limits-cpu-millicore ]]; then
+              echo -en '\n\n'; cat /etc/podinfo/limits-cpu-millicore
+            fi
+            if [[ -e /etc/podinfo/limits-memory-kibibytes ]]; then
+              echo -en '\n\n'; cat /etc/podinfo/limits-memory-kibibytes
+            fi
+            if [[ -e /etc/podinfo/requests-memory-kibibytes ]]; then
+              echo -en '\n\n'; cat /etc/podinfo/requests-memory-kibibytes
+            fi
+            if [[ -e /etc/podinfo/requests-memory-millicores ]]; then
+              echo -en '\n\n'; cat /etc/podinfo/requests-memory-millicores
+            fi
+            sleep 10m
+           done
+
+      resources:
+        requests:
+          cpu: "100m"
+          memory: "150Mi"
+        limits:
+          cpu: "0.2"
+          memory: "200Mi"
+      volumeMounts:
+        - mountPath: /etc/podinfo
+          name: pod-info
+  volumes:
+    - name: pod-info
+      downwardAPI:
+        items:
+          - path: "name"
+            fieldRef:
+              fieldPath: metadata.name
+          - path: "namespace"
+            fieldRef:
+              fieldPath: metadata.namespace
+          - path: "labels"
+            fieldRef:
+              fieldPath: metadata.labels
+          - path: "limits-cpu-millicore"
+            resourceFieldRef:
+              containerName: nginx
+              resource: limits.cpu
+          - path: "limits-memory-kibibytes"
+            resourceFieldRef:
+              containerName: nginx
+              resource: limits.memory
+          - path: "requests-cpu-millicore"
+            resourceFieldRef:
+              containerName: nginx
+              resource: requests.cpu 
+          - path: "requests-memory-kibibytes"
+            resourceFieldRef:
+              containerName: nginx
+              resource: requests.memory
+
+
+      
+      
+      

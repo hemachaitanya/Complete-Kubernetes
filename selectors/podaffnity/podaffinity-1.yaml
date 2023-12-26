@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: web-server
+spec:
+  minReadySeconds: 2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-server
+  template:
+    metadata:
+      labels:
+        app: web-server
+    spec:
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: kubernetes.io/hostname
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - dev-env-1
+                  
+      containers:
+        - name: nginx
+          image: nginx

@@ -42,7 +42,7 @@ kind: Service
 metadata:
   name: catalog-svc
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     online: amazon
     educational: acadamic-programs
