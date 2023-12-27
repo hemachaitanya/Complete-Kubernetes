@@ -1,0 +1,57 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongo
+spec:
+  selector:
+    matchLabels:
+      app: qa
+  serviceName: "mongo"
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: qa
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+        - name: mongo
+          image: mongo:4.4
+          args:
+            - "--dbpath"
+            - "/data/db"
+          command:
+            - "mongod"
+            - "--bind_ip"
+            - "0.0.0.0"
+            - --config=/etc/mongo/mongod.conf
+          ports:
+            - containerPort: 27017
+      volumes:
+        - name: mongodb.config
+          configMap:
+            name: mongodb-config
+            items:
+              - key: mongodb.conf
+                path: mongodb.conf
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: "admin"
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: "devops"
+          volumeMounts:
+            - mountPath: /data/db
+              name: pvc-claim
+            - name: mongodb.conf
+              mountPath: /etc/mongo
+  volumeClaimTemplates:
+    - metadata:
+        name: pvc-claim
+      spec:
+        accessModes: [ ReadWriteOnce ]
+        storageClassName: "stg"
+        resources:
+          requests:
+            storage: 1Gi
+            
