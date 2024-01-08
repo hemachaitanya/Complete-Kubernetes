@@ -1,0 +1,67 @@
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: app-server
+spec:
+  minReadySeconds: 2
+  replicas: 4
+  selector:
+    matchLabels:
+      app: dev-env
+  template:
+    metadata:
+      labels:
+        app: dev-env
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - preference:
+                matchExpressions:
+                  - key: rank
+                    operator: Gt
+                    values:
+                      - "10"
+              weight: 30
+            - preference:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - jenkins
+              weight: 10
+
+            - preference:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - terraform
+              weight: 20
+            
+            - preference:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - docker
+              weight: 30
+            - preference:
+                matchExpressions:
+                  - key: size
+                    operator: In
+                    values:
+                      - large
+              weight: 15
+            - preference:
+                matchExpressions:
+                  - key: size
+                    operator: In
+                    values:
+                      - small
+              weight: 30
+
+      containers:
+        - name: nginx
+          image: nginx

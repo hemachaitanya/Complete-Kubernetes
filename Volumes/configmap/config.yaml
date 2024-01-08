@@ -5,10 +5,11 @@ metadata:
   name: mongodb-config
 data:
   username: admin
-  password: password
+  password: adminadmin
   mongodb.conf: |
     storage:
-      dbpath: /data/configdb
+      dbpath: /data/db
     replication:
       replSetName: "rs0"
+      
     

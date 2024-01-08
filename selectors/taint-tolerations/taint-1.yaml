@@ -2,24 +2,25 @@
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: rs
+  name: web-server
 spec:
   minReadySeconds: 2
-  replicas: 5
+  replicas: 10
   selector:
     matchLabels:
-      app: nginx
+      app: web-server
   template:
     metadata:
       labels:
-        app: nginx
+        app: web-server
     spec:
       nodeSelector:
-        app: jenkins 
+        app: jenkins
       tolerations:
-        - effect:  NoExecute
-          operator: Exists 
-          tolerationSeconds: 10  
+        - key: app
+          value: jenkins
+          operator: "Equal"
+          effect: NoSchedule              
       containers:
         - name: nginx
           image: nginx

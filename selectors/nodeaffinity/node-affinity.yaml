@@ -5,7 +5,7 @@ metadata:
   name: app-server
 spec:
   minReadySeconds: 2
-  replicas: 5
+  replicas: 4
   selector:
     matchLabels:
       app: dev-env
@@ -14,19 +14,15 @@ spec:
       labels:
         app: dev-env
     spec:
-      nodeSelector:
-        app: docker
       affinity:
-        podAffinity:
+        nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-            - topologyKey: kubernetes.io/hostname
-              labelSelector:
-                matchExpressions:
-                  - key: app
-                    operator: In
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: rank
+                    operator: Gt
                     values:
-                      - dev-env
-                  
+                      - "10"
       containers:
         - name: nginx
           image: nginx

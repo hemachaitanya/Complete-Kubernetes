@@ -25,7 +25,7 @@ spec:
             - "mongod"
             - "--bind_ip"
             - "0.0.0.0"
-            - --config=/etc/mongo/mongod.conf
+            - --config=/etc/mongo/mongodb.conf
           ports:
             - containerPort: 27017
       volumes:

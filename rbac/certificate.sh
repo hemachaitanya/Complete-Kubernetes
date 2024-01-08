@@ -1,4 +1,4 @@
-# generate .key
+# generate .key 
 openssl genrsa -out user1.key 2048
 
 # generate .csr
@@ -27,6 +27,23 @@ kubectl config set-context user1-context \
     --cluster=minikube \
     --namespace=default \
     --user=user1
+
+
+
+### kubeadm
+# generate .key 
+openssl genrsa -out employee.key 2048
+
+# generate .csr
+ openssl req -new -key employee.key -out employee.csr -subj "/CN=employee/O=bitnami"
+
+# generate .crt
+# Check that the files ca.crt and ca.key exist in the location.
+ sudo openssl x509 -req -in employee.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out employee.crt -days 500
+
+kubectl config set-credentials employee --client-certificate=/home/employee/.certs/employee.crt  --client-key=/home/employee/.certs/employee.key
+kubectl config set-context employee-context --cluster=minikube --namespace=office --user=employee
+
 
 kubectl config view
 

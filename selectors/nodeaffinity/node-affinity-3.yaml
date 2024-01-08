@@ -2,10 +2,10 @@
 apiVersion: apps/v1
 kind: ReplicaSet
 metadata:
-  name: app-server
+  name: app-server-1
 spec:
   minReadySeconds: 2
-  replicas: 5
+  replicas: 4
   selector:
     matchLabels:
       app: dev-env
@@ -14,18 +14,24 @@ spec:
       labels:
         app: dev-env
     spec:
-      nodeSelector:
-        app: docker
       affinity:
-        podAffinity:
+        nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
-            - topologyKey: kubernetes.io/hostname
-              labelSelector:
-                matchExpressions:
+            nodeSelectorTerms:
+              - matchExpressions:
                   - key: app
                     operator: In
                     values:
-                      - dev-env
+                      - jenkins
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - preference:
+                matchExpressions:
+                  - key: size
+                    operator: In
+                    values:
+                      - nano
+              weight: 10
+            
                   
       containers:
         - name: nginx
