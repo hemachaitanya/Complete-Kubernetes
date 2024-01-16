@@ -16,7 +16,6 @@
 ```
   
 ```yaml
-* Create a new chart- helm create mychart
 * Fetch release history - helm history myrelease
 * Search for a keyword in charts - helm search repo <keyword>
 * Show information about a chart - helm show chart ./mychart
