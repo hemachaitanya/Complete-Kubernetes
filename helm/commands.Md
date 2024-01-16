@@ -1,5 +1,6 @@
 # _____helm____
 
+```json
 * helm create hellow-world - To create a hellow-world Helm Chart
 * tree Helm Chart name - To verify the complete directory structure of the HelmChart
 * helm install <Release Name>  <Actual Chart Name> - To remove the charts
@@ -12,6 +13,7 @@
 * helm template <Actual Chart Name> - renders the chart templates locally
 * helm lint <Actual Chart Name> - Find any errors or misconfiguration
 * helmfile synk or helm delete <Name of the Release Chart>
+```
   
 ```yaml
 * Create a new chart- helm create mychart
