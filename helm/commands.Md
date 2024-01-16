@@ -1,6 +1,6 @@
 # _____helm____
 
-```baash
+```bash
 * helm create hellow-world - To create a hellow-world Helm Chart
 * tree Helm Chart name - To verify the complete directory structure of the HelmChart
 * helm install <Release Name>  <Actual Chart Name> - To remove the charts
