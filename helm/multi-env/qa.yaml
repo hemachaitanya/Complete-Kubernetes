@@ -1,0 +1,32 @@
+---
+# Source: reusable/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qa-env
+  labels:
+    app: qa-env
+    env: qa    
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qa-env
+      env: qa
+  template:
+    metadata:
+      labels:
+        app: qa-env
+        env: qa
+    spec:
+      containers:
+      - name: poojastore
+        image: nginx:latest
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: 100m
+            memory: 100Mi
+          requests:
+            cpu: 100m
+            memory: 100Mi

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+  labels:
+  {{- toYaml .Values.app.data | nindent 4 }}    
+spec:
+  replicas: {{ .Values.app.replicascount }}
+  selector:
+    matchLabels:
+    {{- toYaml .Values.app.data | nindent 6 }}
+  template:
+    metadata:
+      labels:
+       {{- toYaml .Values.app.data | nindent 10 }}
+    spec:
+      containers:
+      - name: poojastore
+        image: {{ .Values.app.image }}
+        imagePullPolicy: IfNotPresent
+        resources:
+         {{- toYaml .Values.app.computerc | nindent 10 -}}

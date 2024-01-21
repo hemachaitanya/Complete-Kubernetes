@@ -1,0 +1,32 @@
+---
+# Source: reusable/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: uat-env
+  labels:
+    app: uat-env
+    env: uat    
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: uat-env
+      env: uat
+  template:
+    metadata:
+      labels:
+        app: uat-env
+        env: uat
+    spec:
+      containers:
+      - name: poojastore
+        image: nginx:latest
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: 300m
+            memory: 300Mi
+          requests:
+            cpu: 250m
+            memory: 250Mi
