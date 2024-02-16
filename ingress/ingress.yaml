@@ -34,3 +34,10 @@ spec:
                 name: order-svc
                 port: 
                   number: 80
+          - path: /(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: order-svc
+                port: 
+                  number: 80
