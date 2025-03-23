@@ -1,4 +1,4 @@
-
+ji
 # Kubernetes
 
 Is an open-source orchestration system for Docker containers.
@@ -361,8 +361,11 @@ spec:
     spec:
       containers:
       - name: nginx
-        port: nginx
-        - containerPort: 80 
+        image: nginx
+        ports:
+          - containerPort: 80
+
+            protocol: TCP
 ```
 
 Via CLI you can use:
