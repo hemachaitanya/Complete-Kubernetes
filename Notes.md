@@ -475,6 +475,7 @@ spec:
     app: helloworld
   type: NodePort
 ```
+```
 - kubectl get pods -o wide
 - kubectl exec <Pod name-1> -it -- /bin/bash
     - ping -C <Pod-2 IP adress>
@@ -490,6 +491,7 @@ spec:
 -  dig <pod ip>
 -  nslookup <pod ip>
 - in Node cat /etc/resolv.conf
+```
 Default services can only run between ports 30000 - 32767, but you can change this behavior by using --service-node-port-range= to kube-apiserver.
 
 ### Labels
