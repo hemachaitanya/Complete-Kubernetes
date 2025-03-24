@@ -1,4 +1,4 @@
-ji
+
 # Kubernetes
 
 Is an open-source orchestration system for Docker containers.
@@ -386,9 +386,11 @@ kubectl scale --replicas=4 -f config.yml
 - Selector: How can i measure that number of replicas Running or not
 - Template: What do you want we created for the replicas of
 - some usefulcommands
+- ```
    * kubectl get rs
    * kubectl get po --show-labels -w
    * kubectl describe rs <Pod Name>
+  ```
 
 - A deployment declaration in Kubernetes allows you to do app deployments and updates
 - When using the deployment object, you define the state of your application
@@ -582,7 +584,7 @@ spec:
       timeoutSeconds: 30
 ```
 ### CronJob
-
+```
 - kubectl apply -f <Manifest Name>
 - kubectl get cronjobs.batch
 - kubectl get jobs.batch
@@ -590,6 +592,8 @@ spec:
 - kubectl delete 
 - kubectl delete -f <Manifest Name> 
 - Jobs excutes Once but CronJob excutes many times
+
+```
 ### Secrets
 
 - Secrets provides a way in Kubernetes to distribute credentials, keys, passwords or "secret" data to the pods.
